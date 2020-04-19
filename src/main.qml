@@ -1,47 +1,46 @@
+import QtQuick 2.13
+import QtQuick.Controls 2.13
+
 import org.kde.mauikit 1.0 as Maui
 import org.kde.mauikit 1.1 as MauiLab
-import QtQuick 2.10
-import QtQuick.Controls 2.10
 import org.kde.kirigami 2.8 as Kirigami
-import QtQuick.Layouts 1.3
+
+import "views/player"
 
 Maui.ApplicationWindow
 {
     id: root
-    height: 800
-    width: height
 
     Maui.App.enableCSD: true
+    floatingHeader: _appViews.currentIndex === 0
+    floatingFooter: _appViews.currentIndex === 0
+    autoHideHeader: _appViews.currentIndex === 0
 
-    autoHideHeader: true
-    floatingHeader: true
-//         headerPositioning: ListView.PullBackHeader
-//         footerPositioning: ListView.PullBackFooter
-    headBar.leftContent: ToolButton
+    MauiLab.AppViews
     {
-        icon.name: "love"
-    }
-
-    footBar.leftContent: ToolButton
-    {
-        icon.name: "love"
-        onClicked: root.altHeader = !root.altHeader
-    }
-
-    flickable: list
-
-    ListView
-    {
-        id: list
+        id: _appViews
         anchors.fill: parent
-        model: 20
-        spacing: 20
 
-        delegate: Rectangle
+        PlayerView
         {
-            width: 100
-            height: 68
-            color: "orange"
+            id: _playerView
+            MauiLab.AppView.title: qsTr("Player")
+            MauiLab.AppView.iconName: qsTr("quickview")
+            url: "file:///home/camilo/Videos/Marlene Dumas miss interpreted-veexrm7BLxQ.mp4"
+        }
+
+        Maui.Page
+        {
+            id: _collectionView
+            MauiLab.AppView.title: qsTr("Collection")
+            MauiLab.AppView.iconName: qsTr("folder-videos")
+        }
+
+        Maui.Page
+        {
+            id: _tagsView
+            MauiLab.AppView.title: qsTr("Tags")
+            MauiLab.AppView.iconName: qsTr("tag")
         }
     }
 }

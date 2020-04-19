@@ -38,9 +38,14 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     app.setApplicationDisplayName("Cinema");
     app.setOrganizationName("Maui");
     app.setOrganizationDomain("org.maui.cinema");
-    app.setWindowIcon(QIcon(":/cinema.svg"));
-    MauiApp::instance()->setHandleAccounts(false);
+    app.setWindowIcon(QIcon(":/img/assets/cinema.svg"));
+    MauiApp::instance()->setDescription("Video collection manager and player.");
+    MauiApp::instance()->setIconName("qrc:/img/assets/cinema.svg");
+    MauiApp::instance()->setWebPage("https://mauikit.org");
+    MauiApp::instance()->setDonationPage("https://mauikit.org");
+    MauiApp::instance()->setReportPage("https://invent.kde.org/camiloh/cinema");    
     MauiApp::instance()->setCredits ({QVariantMap({{"name", "Camilo Higuita"}, {"email", "milo.h@aol.com"}, {"year", "2019-2020"}})});
+    MauiApp::instance()->setHandleAccounts(false);
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Video manager and player");
@@ -68,5 +73,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
     engine.load(url);
+    
+#ifdef Q_OS_MACOS
+//    MAUIMacOS::removeTitlebarFromWindow();
+//    MauiApp::instance()->setEnableCSD(true); //for now index can not handle cloud accounts
+#endif
+    
     return app.exec();
 }

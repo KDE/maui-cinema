@@ -41,8 +41,8 @@ include(KDECMakeSettings)
 
 if(ANDROID)
     add_library(cinema SHARED
-      main.cpp
-      qml.qrc
+      src/main.cpp
+      src/qml.qrc
       ${TS_FILES}
     )
 else()
