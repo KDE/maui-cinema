@@ -13,8 +13,30 @@ Maui.ApplicationWindow
 
     Maui.App.enableCSD: true
     floatingHeader: _appViews.currentIndex === 0
-    floatingFooter: _appViews.currentIndex === 0
     autoHideHeader: _appViews.currentIndex === 0
+
+    mainMenu: MenuItem
+    {
+        text: qsTr("Open")
+        icon.name: "folder-open"
+        onTriggered: _fileDialog.open()
+    }
+
+    Maui.FileDialog
+    {
+        id: _fileDialog
+        mode: modes.open
+        settings.filterType: Maui.FMList.VIDEO
+        settings.sortBy: Maui.FMList.MODIFIED
+        singleSelection : true
+        onUrlsSelected:
+        {
+            if(urls.length > 0)
+            {
+                _playerView.url = urls[0]
+            }
+        }
+    }
 
     MauiLab.AppViews
     {
@@ -34,6 +56,16 @@ Maui.ApplicationWindow
             id: _collectionView
             MauiLab.AppView.title: qsTr("Collection")
             MauiLab.AppView.iconName: qsTr("folder-videos")
+
+            Canvas {
+                id: mycanvas
+                anchors.fill: parent
+                onPaint: {
+                    var ctx = getContext("2d");
+                    ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
+                    ctx.fillRect(0, 0, width, height);
+                }
+            }
         }
 
         Maui.Page

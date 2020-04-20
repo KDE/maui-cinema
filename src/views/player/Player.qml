@@ -10,6 +10,9 @@ Maui.Page
     id: control
     property alias player : player
     property alias url : player.source
+    floatingFooter: true
+    autoHideFooter: true
+    autoHideFooterMargins: control.height
 
     Video
     {
