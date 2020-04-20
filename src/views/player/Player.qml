@@ -3,16 +3,23 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtMultimedia 5.8
 import org.kde.mauikit 1.0 as Maui
+import org.kde.mauikit 1.1 as MauiLab
 import org.kde.kirigami 2.7 as Kirigami
 
 Maui.Page
 {
     id: control
-    property alias player : player
+    property alias video : player
     property alias url : player.source
     floatingFooter: true
     autoHideFooter: true
     autoHideFooterMargins: control.height
+
+    MauiLab.Doodle
+    {
+        id: _doodle
+        sourceItem: video
+    }
 
     Video
     {
@@ -59,10 +66,19 @@ Maui.Page
         onClicked: player.playbackState === MediaPlayer.PlayingState ? player.pause() : player.play()
     }
 
-    footBar.rightContent: Label
-    {
-        text: Maui.FM.formatTime((player.duration - player.position)/1000)
-    }
+    footBar.rightContent: [
+        Label
+            {
+                text: Maui.FM.formatTime((player.duration - player.position)/1000)
+            },
+
+            ToolButton
+            {
+              icon.name: "tool_pen"
+              onClicked: _doodle.open()
+
+            }
+    ]
 
     footBar.middleContent : Slider
     {

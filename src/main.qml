@@ -56,16 +56,6 @@ Maui.ApplicationWindow
             id: _collectionView
             MauiLab.AppView.title: qsTr("Collection")
             MauiLab.AppView.iconName: qsTr("folder-videos")
-
-            Canvas {
-                id: mycanvas
-                anchors.fill: parent
-                onPaint: {
-                    var ctx = getContext("2d");
-                    ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
-                    ctx.fillRect(0, 0, width, height);
-                }
-            }
         }
 
         Maui.Page
