@@ -11,7 +11,6 @@ Maui.ApplicationWindow
 {
     id: root
 
-    Maui.App.enableCSD: true
     floatingHeader: _appViews.currentIndex === 0
     autoHideHeader: _appViews.currentIndex === 0
 
