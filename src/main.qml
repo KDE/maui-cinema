@@ -14,7 +14,7 @@ Maui.ApplicationWindow
     floatingHeader: _appViews.currentIndex === 0
     autoHideHeader: _appViews.currentIndex === 0
 
-    mainMenu: MenuItem
+    mainMenu: Action
     {
         text: qsTr("Open")
         icon.name: "folder-open"
