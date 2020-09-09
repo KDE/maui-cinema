@@ -58,6 +58,8 @@ ecm_setup_version(${CINEMA_VERSION}
     )
 endif()
 
+install (TARGETS cinema ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}) 
+
 target_compile_definitions(cinema
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(cinema

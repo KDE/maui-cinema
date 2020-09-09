@@ -12,7 +12,7 @@ Maui.ApplicationWindow
     id: root
 
     floatingHeader: _appViews.currentIndex === 0
-    autoHideHeader: _appViews.currentIndex === 0
+    autoHideHeader: _appViews.currentIndex === 0 && _playerView.player.playing
 
     mainMenu: Action
     {
