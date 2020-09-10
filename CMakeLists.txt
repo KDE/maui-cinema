@@ -48,6 +48,10 @@ if(ANDROID)
 else()
     add_executable(cinema
       src/main.cpp
+      src/models/videosmodel.cpp
+      src/utils/fileloader.h
+      src/utils/cinema.cpp
+      src/utils/thumbnailer.cpp
       src/qml.qrc
       ${TS_FILES}
     )
@@ -58,7 +62,7 @@ ecm_setup_version(${CINEMA_VERSION}
     )
 endif()
 
-install (TARGETS cinema ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}) 
+install (TARGETS cinema ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 target_compile_definitions(cinema
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

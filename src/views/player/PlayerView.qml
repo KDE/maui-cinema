@@ -6,6 +6,12 @@ Item
     id: control
     property alias url : _player.url
     property alias player : _player
+    property var currentVideo : ({})
+
+    onCurrentVideoChanged:
+    {
+        url = currentVideo.path
+    }
 
     Player
     {

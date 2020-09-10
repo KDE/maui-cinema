@@ -1,9 +1,8 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
 import QtMultimedia 5.8
-import org.kde.mauikit 1.0 as Maui
-import org.kde.mauikit 1.1 as MauiLab
+import org.kde.mauikit 1.2 as Maui
 import org.kde.kirigami 2.7 as Kirigami
 
 Maui.Page
@@ -19,17 +18,31 @@ Maui.Page
     autoHideFooter: true
     autoHideFooterMargins: control.height
 
-    MauiLab.Doodle
+    Maui.Doodle
     {
         id: _doodle
         sourceItem: video
     }
 
+//    Connections
+//    {
+//        target: _appViews
+//        function onCurrentIndexChanged()
+//        {
+//            if(_appViews.currentIndex !== views.player && control.playing)
+//            {
+//                player.pause()
+//            }else
+//            {
+//                player.play()
+//            }
+//        }
+//    }
+
     Video
     {
         id: player
         anchors.fill: parent
-        source: control.url
         autoLoad: true
         autoPlay: true
         focus: true
@@ -64,10 +77,24 @@ Maui.Page
         }
     }
 
-    footBar.leftContent: ToolButton
+    footBar.leftContent: Maui.ToolActions
     {
-        icon.name: player.playbackState === MediaPlayer.PlayingState ? "media-playback-pause" : "media-playback-start"
-        onClicked: player.playbackState === MediaPlayer.PlayingState ? player.pause() : player.play()
+        expanded: true
+        Action
+        {
+            icon.name: "media-skip-backward"
+        }
+
+        Action
+        {
+            icon.name: player.playbackState === MediaPlayer.PlayingState ? "media-playback-pause" : "media-playback-start"
+            onTriggered: player.playbackState === MediaPlayer.PlayingState ? player.pause() : player.play()
+        }
+
+        Action
+        {
+            icon.name: "media-skip-forward"
+        }
     }
 
     footBar.rightContent: [
