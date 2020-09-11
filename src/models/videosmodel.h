@@ -5,16 +5,17 @@
 
 #ifdef STATIC_MAUIKIT
 #include "fmh.h"
+#include "fileloader.h"
 #include "mauilist.h"
 #else
 #include <MauiKit/fmh.h>
+#include <MauiKit/fileloader.h>
 #include <MauiKit/mauilist.h>
 #endif
 
 #define CINEMA_QUERY_MAX_LIMIT 20000
 
 class QFileSystemWatcher;
-class FileLoader;
 
 class VideosModel : public MauiList
 {
@@ -49,7 +50,7 @@ class VideosModel : public MauiList
 
 
     private:
-        FileLoader *m_fileLoader;
+        FMH::FileLoader *m_fileLoader;
         QFileSystemWatcher *m_watcher;
 
         QList<QUrl> m_urls;

@@ -11,7 +11,7 @@
 #endif
 
 VideosModel::VideosModel(QObject *parent) : MauiList(parent)
-  , m_fileLoader(new FileLoader())
+  , m_fileLoader(new FMH::FileLoader())
   , m_watcher (new QFileSystemWatcher(this))
   , m_autoReload(true)
   , m_autoScan(true)
@@ -19,12 +19,12 @@ VideosModel::VideosModel(QObject *parent) : MauiList(parent)
 {
 	qDebug()<< "CREATING GALLERY LIST";
 
-	connect(m_fileLoader, &FileLoader::finished,[](FMH::MODEL_LIST items)
+    connect(m_fileLoader, &FMH::FileLoader::finished,[](FMH::MODEL_LIST items)
 	{
 		qDebug() << "Items finished" << items.size();
 	});
 
-	connect(m_fileLoader, &FileLoader::itemsReady,[this](FMH::MODEL_LIST items)
+    connect(m_fileLoader, &FMH::FileLoader::itemsReady,[this](FMH::MODEL_LIST items)
 	{
 		emit this->preListChanged();
 		this-> list << items;
@@ -32,7 +32,7 @@ VideosModel::VideosModel(QObject *parent) : MauiList(parent)
 		emit countChanged(); //TODO this is a bug from mauimodel not changing the count right //TODO
 	});
 
-	connect(m_fileLoader, &FileLoader::itemReady,[this](FMH::MODEL item)
+    connect(m_fileLoader, &FMH::FileLoader::itemReady,[this](FMH::MODEL item)
 	{
 		this->insertFolder(item[FMH::MODEL_KEY::SOURCE]);
 
@@ -132,7 +132,7 @@ int VideosModel::limit() const
 void VideosModel::scan(const QList<QUrl> &urls, const bool &recursive, const int &limit)
 {
 	this->scanTags (extractTags (urls), recursive, limit);
-	m_fileLoader->requestPath(urls, recursive, limit);
+    m_fileLoader->requestPath(urls, recursive, FMH::FILTER_LIST[FMH::FILTER_TYPE::VIDEO]);
 }
 
 void VideosModel::scanTags(const QList<QUrl> & urls, const bool & recursive, const int & limit)
@@ -146,7 +146,7 @@ void VideosModel::scanTags(const QList<QUrl> & urls, const bool & recursive, con
 		{
 			const auto url = QUrl(item.toMap ().value ("url").toString());
 			if(FMH::fileExists(url))
-				res << FileLoader::videoInfo (url);
+                res << FMH::getFileInfoModel(url);
 		}
 	}
 
@@ -223,7 +223,7 @@ void VideosModel::append(const QVariantMap &pic)
 void VideosModel::append(const QString &url)
 {
 	emit this->preItemAppended();
-	this->list << FileLoader::videoInfo (QUrl::fromUserInput (url));
+    this->list << FMH::getFileInfoModel(QUrl::fromUserInput (url));
 	emit this->postItemAppended();
 }
 

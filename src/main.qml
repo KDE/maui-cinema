@@ -65,7 +65,6 @@ Maui.ApplicationWindow
             id: _playerView
             Maui.AppView.title: qsTr("Player")
             Maui.AppView.iconName: qsTr("quickview")
-            url: "file:///home/camilo/Videos/Marlene Dumas miss interpreted-veexrm7BLxQ.mp4"
         }
 
         CollectionView

@@ -104,6 +104,12 @@ Maui.SelectionBar
 
     function insert(item)
     {
+        if(control.contains(item.path))
+        {
+            control.removeAtUri(item.path)
+            return
+        }
+
         control.append(item.path, item)
     }
 }

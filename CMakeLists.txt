@@ -49,7 +49,6 @@ else()
     add_executable(cinema
       src/main.cpp
       src/models/videosmodel.cpp
-      src/utils/fileloader.h
       src/utils/cinema.cpp
       src/utils/thumbnailer.cpp
       src/qml.qrc
