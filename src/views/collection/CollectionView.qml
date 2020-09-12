@@ -1,4 +1,5 @@
 import QtQuick 2.14
+import QtQml 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
 
@@ -22,6 +23,12 @@ Maui.AltBrowser
 
     holder.visible: _collectionList.count === 0
     holder.emojiSize: Maui.Style.iconSizes.huge
+
+    Binding on viewType
+    {
+    value: control.width < Kirigami.Units.gridUnit * 30 ? Maui.AltBrowser.ViewType.List : Maui.AltBrowser.ViewType.Grid
+    restoreMode: Binding.RestoreBinding
+    }
 
     Connections
     {
@@ -124,7 +131,7 @@ Maui.AltBrowser
     label1.text: model.label
     label2.text: model.path
     label3.text: model.mime
-    label4.text: Qt.formatDateTime(new Date(model.modified), "h:mm d MMM yyyy")
+    label4.text: Qt.formatDateTime(new Date(model.modified), "d MMM yyyy")
     imageSource: "image://thumbnailer/"+model.path
     template.imageHeight: height
     template.imageWidth: width

@@ -50,7 +50,6 @@ else()
       src/main.cpp
       src/models/videosmodel.cpp
       src/utils/cinema.cpp
-      src/utils/thumbnailer.cpp
       src/qml.qrc
       ${TS_FILES}
     )

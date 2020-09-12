@@ -21,7 +21,6 @@
 #endif
 
 #include "cinema_version.h"
-#include "src/utils/thumbnailer.h"
 #include "src/models/videosmodel.h"
 #include "src/utils/cinema.h"
 
@@ -120,8 +119,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 			Cinema::instance ()->openVideos(videos);
 
 	}, Qt::QueuedConnection);
-
-	engine.addImageProvider("thumbnailer", new Thumbnailer());
 
 	qmlRegisterType<VideosModel>(CINEMA_URI, 1, 0, "Videos");
 	qmlRegisterSingletonInstance<Cinema>(CINEMA_URI, 1, 0, "Cinema", Cinema::instance ());
