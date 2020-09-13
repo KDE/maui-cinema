@@ -8,7 +8,7 @@ import org.kde.kirigami 2.8 as Kirigami
 import "views"
 import "views/player"
 import "views/collection"
-
+import "views/tags"
 
 Maui.ApplicationWindow
 {
@@ -74,7 +74,7 @@ Maui.ApplicationWindow
             Maui.AppView.iconName: qsTr("folder-videos")
         }
 
-        Maui.Page
+       TagsView
         {
             id: _tagsView
             Maui.AppView.title: qsTr("Tags")
@@ -130,10 +130,7 @@ Maui.ApplicationWindow
             label1.text: _playerView.currentVideo.label
             label2.text: _playerView.currentVideo.modified
         }
-
     ]
-
-
 
     function play(item)
     {

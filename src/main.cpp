@@ -22,6 +22,8 @@
 
 #include "cinema_version.h"
 #include "src/models/videosmodel.h"
+#include "src/models/tagsmodel.h"
+
 #include "src/utils/cinema.h"
 
 #define CINEMA_URI "org.maui.cinema"
@@ -120,8 +122,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
 	}, Qt::QueuedConnection);
 
-	qmlRegisterType<VideosModel>(CINEMA_URI, 1, 0, "Videos");
-	qmlRegisterSingletonInstance<Cinema>(CINEMA_URI, 1, 0, "Cinema", Cinema::instance ());
+    qmlRegisterType<VideosModel>(CINEMA_URI, 1, 0, "Videos");
+    qmlRegisterType<TagsModel>(CINEMA_URI, 1, 0, "Tags");
+    qmlRegisterSingletonInstance<Cinema>(CINEMA_URI, 1, 0, "Cinema", Cinema::instance ());
 
 	engine.load(url);
 

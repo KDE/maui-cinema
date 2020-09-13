@@ -5,6 +5,7 @@
         <file>views/player/Player.qml</file>
         <file>views/collection/CollectionView.qml</file>
         <file>views/SelectionBar.qml</file>
+        <file>views/tags/TagsView.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>assets/cinema.svg</file>

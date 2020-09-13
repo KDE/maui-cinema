@@ -49,6 +49,7 @@ else()
     add_executable(cinema
       src/main.cpp
       src/models/videosmodel.cpp
+      src/models/tagsmodel.cpp
       src/utils/cinema.cpp
       src/qml.qrc
       ${TS_FILES}

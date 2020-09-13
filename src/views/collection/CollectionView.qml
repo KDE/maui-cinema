@@ -26,8 +26,8 @@ Maui.AltBrowser
 
     Binding on viewType
     {
-    value: control.width < Kirigami.Units.gridUnit * 30 ? Maui.AltBrowser.ViewType.List : Maui.AltBrowser.ViewType.Grid
-    restoreMode: Binding.RestoreBinding
+        value: control.width < Kirigami.Units.gridUnit * 30 ? Maui.AltBrowser.ViewType.List : Maui.AltBrowser.ViewType.Grid
+        restoreMode: Binding.RestoreBinding
     }
 
     Connections
@@ -51,10 +51,10 @@ Maui.AltBrowser
                 control.currentView.itemsSelected([index])
             }
 
-//            if(event.key === Qt.Key_Space)
-//            {
-//                getFileInfo(item.url)
-//            }
+            //            if(event.key === Qt.Key_Space)
+            //            {
+            //                getFileInfo(item.url)
+            //            }
         }
     }
 
@@ -133,8 +133,8 @@ Maui.AltBrowser
     label3.text: model.mime
     label4.text: Qt.formatDateTime(new Date(model.modified), "d MMM yyyy")
     imageSource: "image://thumbnailer/"+model.path
-    template.imageHeight: height
-    template.imageWidth: width
+    //    template.imageHeight: height
+    //    template.imageWidth: width
     template.fillMode: Image.PreserveAspectCrop
 
 
