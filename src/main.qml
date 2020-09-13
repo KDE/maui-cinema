@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.3
 import org.kde.mauikit 1.2 as Maui
 import org.kde.kirigami 2.8 as Kirigami
 
+import TagsList 1.0
+
 import "views"
 import "views/player"
 import "views/collection"
@@ -14,7 +16,7 @@ Maui.ApplicationWindow
 {
     id: root
 
-    floatingHeader: _appViews.currentIndex === 0
+    floatingHeader: autoHideHeader
     autoHideHeader: _appViews.currentIndex === 0 && _playerView.player.playing
     property bool selectionMode : false
 
@@ -22,23 +24,32 @@ Maui.ApplicationWindow
 
     flickable: _appViews.currentItem ? _appViews.currentItem.flickable || null : null
 
+    /***MODELS****/
+    Maui.BaseModel
+    {
+        id: tagsModel
+        list: TagsList
+        {
+            id: tagsList
+        }
+    }
 
     mainMenu: [
         Action
-            {
-                text: qsTr("Open")
-                icon.name: "folder-open"
-                onTriggered: _fileDialog.open()
-            },
+        {
+            text: qsTr("Open")
+            icon.name: "folder-open"
+            onTriggered: _fileDialog.open()
+        },
 
-            Action
-                {
-                    text: qsTr("Settings")
-                    icon.name: "folder-open"
-                    onTriggered: _fileDialog.open()
-                }
-
+        Action
+        {
+            text: qsTr("Settings")
+            icon.name: "folder-open"
+            onTriggered: _fileDialog.open()
+        }
     ]
+
     Maui.FileDialog
     {
         id: _fileDialog

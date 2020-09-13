@@ -9,5 +9,7 @@
     </qresource>
     <qresource prefix="/img">
         <file>assets/cinema.svg</file>
+        <file>assets/tag.svg</file>
+        <file>assets/view-media-video.svg</file>
     </qresource>
 </RCC>

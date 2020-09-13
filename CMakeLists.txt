@@ -50,6 +50,7 @@ else()
       src/main.cpp
       src/models/videosmodel.cpp
       src/models/tagsmodel.cpp
+      src/models/playlistmodel.cpp
       src/utils/cinema.cpp
       src/qml.qrc
       ${TS_FILES}

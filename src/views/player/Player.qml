@@ -14,8 +14,9 @@ Maui.Page
     readonly property bool paused : player.playbackState === MediaPlayer.PausedState
     readonly property bool stopped : player.playbackState === MediaPlayer.StoppedState
 
-    floatingFooter: true
-    autoHideFooter: true
+    floatingFooter: player.visible
+    autoHideFooter: floatingFooter
+
     autoHideFooterMargins: control.height
 
     Maui.Doodle
@@ -24,24 +25,25 @@ Maui.Page
         sourceItem: video
     }
 
-//    Connections
-//    {
-//        target: _appViews
-//        function onCurrentIndexChanged()
-//        {
-//            if(_appViews.currentIndex !== views.player && control.playing)
-//            {
-//                player.pause()
-//            }else
-//            {
-//                player.play()
-//            }
-//        }
-//    }
+    //    Connections
+    //    {
+    //        target: _appViews
+    //        function onCurrentIndexChanged()
+    //        {
+    //            if(_appViews.currentIndex !== views.player && control.playing)
+    //            {
+    //                player.pause()
+    //            }else
+    //            {
+    //                player.play()
+    //            }
+    //        }
+    //    }
 
     Video
     {
         id: player
+        visible: !control.stopped
         anchors.fill: parent
         autoLoad: true
         autoPlay: true
@@ -77,43 +79,49 @@ Maui.Page
         }
     }
 
-    footBar.leftContent: Maui.ToolActions
-    {
-        expanded: true
-        Action
+    footBar.leftContent:[
+        ToolButton
         {
-            icon.name: "media-skip-backward"
-        }
+            icon.name: "view-media-playlist"
+        },
+        Maui.ToolActions
+        {
+            expanded: true
+            Action
+            {
+                icon.name: "media-skip-backward"
+            }
 
-        Action
-        {
-            icon.name: player.playbackState === MediaPlayer.PlayingState ? "media-playback-pause" : "media-playback-start"
-            onTriggered: player.playbackState === MediaPlayer.PlayingState ? player.pause() : player.play()
-        }
+            Action
+            {
+                icon.name: player.playbackState === MediaPlayer.PlayingState ? "media-playback-pause" : "media-playback-start"
+                onTriggered: player.playbackState === MediaPlayer.PlayingState ? player.pause() : player.play()
+            }
 
-        Action
-        {
-            icon.name: "media-skip-forward"
-        }
-    }
+            Action
+            {
+                icon.name: "media-skip-forward"
+            }
+        }]
 
     footBar.rightContent: [
         Label
-            {
-                text: Maui.FM.formatTime((player.duration - player.position)/1000)
-            },
+        {
+            text: Maui.FM.formatTime((player.duration - player.position)/1000)
+        },
 
-            ToolButton
-            {
-              icon.name: "tool_pen"
-              onClicked: _doodle.open()
+        ToolButton
+        {
+            icon.name: "tool_pen"
+            onClicked: _doodle.open()
 
-            }
+        }
     ]
 
     footBar.middleContent : Slider
     {
         id: _slider
+        enabled: control.playing || control.paused
         Layout.fillWidth: true
         orientation: Qt.Horizontal
         from: 0

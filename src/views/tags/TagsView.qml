@@ -21,11 +21,41 @@ Maui.AltBrowser
 
     holder.visible: _tagsList.count === 0
     holder.emojiSize: Maui.Style.iconSizes.huge
+    holder.emoji: "qrc:/img/assets/tag.svg"
+    holder.title: qsTr("No Tags!")
+    holder.body: qsTr("Add a new tag to start organizing you video collection.")
 
     Binding on viewType
     {
         value: control.width < Kirigami.Units.gridUnit * 30 ? Maui.AltBrowser.ViewType.List : Maui.AltBrowser.ViewType.Grid
         restoreMode: Binding.RestoreBinding
+    }
+
+    Maui.FloatingButton
+    {
+        z: parent.z + 1
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: height
+        height: Maui.Style.toolBarHeight
+
+        icon.name: "list-add"
+        icon.color: Kirigami.Theme.highlightedTextColor
+        onClicked: newTagDialog.open()
+    }
+
+    Maui.NewDialog
+    {
+        id: newTagDialog
+        title: i18n("New tag")
+        message: i18n("Create a new tag to organize your gallery")
+        acceptButton.text : i18n("Add")
+        onFinished:
+        {
+            tagsList.insert(text)
+        }
+
+        onRejected: close()
     }
 
     model: Maui.BaseModel
