@@ -216,7 +216,7 @@ gridDelegate: Item
         imageSource: "image://thumbnailer/"+model.path
         template.imageHeight: height
         template.imageWidth: width
-        template.fillMode: Image.PreserveAspectCrop
+        template.fillMode: Image.PreserveAspectFit
 
         anchors.centerIn: parent
         height: control.gridView.cellHeight - 15
