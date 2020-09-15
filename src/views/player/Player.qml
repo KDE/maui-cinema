@@ -19,6 +19,11 @@ Maui.Page
 
     autoHideFooterMargins: control.height
 
+    background: Rectangle
+    {
+        color: player.playbackState === MediaPlayer.PlayingState ? "#333" : Kirigami.theme.backGroundColor
+    }
+
     Maui.Doodle
     {
         id: _doodle
@@ -79,6 +84,7 @@ Maui.Page
         }
     }
 
+    footBar.visible: player.playbackState !== MediaPlayer.StoppedState
     footBar.leftContent:[
         ToolButton
         {

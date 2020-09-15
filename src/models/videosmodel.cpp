@@ -141,7 +141,7 @@ void VideosModel::scanTags(const QList<QUrl> & urls, const bool & recursive, con
 	FMH::MODEL_LIST res;
 	for(const auto &tagUrl : urls)
 	{
-		auto items = Tagging::getInstance ()->getUrls(tagUrl.toString ().replace ("tags:///", ""), true, limit, "image");
+        auto items = Tagging::getInstance ()->getUrls(tagUrl.toString ().replace ("tags:///", ""), true, limit, "video");
 
 		for(const auto &item : items)
 		{

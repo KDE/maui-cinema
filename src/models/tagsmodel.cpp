@@ -31,6 +31,7 @@ void TagsModel::setList()
     emit this->preListChanged();
     this->list << this->tags();
     emit this->postListChanged();
+    emit countChanged();
 }
 
 FMH::MODEL TagsModel::packPlaylist(const QString &playlist)
@@ -46,7 +47,7 @@ FMH::MODEL TagsModel::packPlaylist(const QString &playlist)
 FMH::MODEL_LIST TagsModel::tags()
 {
     FMH::MODEL_LIST res;
-    const auto tags = Tagging::getInstance()->getUrlsTags(false);
+    const auto tags = Tagging::getInstance()->getUrlsTags(true);
 
     return std::accumulate(tags.constBegin(), tags.constEnd(), res, [](FMH::MODEL_LIST &list, const QVariant &item)
     {

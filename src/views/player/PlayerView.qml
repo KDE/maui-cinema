@@ -1,5 +1,5 @@
-import QtQuick 2.10
-import QtQuick.Controls 2.10
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
 import org.kde.mauikit 1.2 as Maui
 import org.kde.kirigami 2.8 as Kirigami
@@ -19,18 +19,9 @@ Kirigami.ColumnView
         url = currentVideo.path
     }
 
-    Maui.Page
+    Playlist
     {
         id: _sideBar
-
-        Maui.Holder
-        {
-            visible: player.stopped
-            emojiSize: Maui.Style.iconSizes.huge
-            emoji: "qrc:/img/assets/view-media-video.svg"
-            title: qsTr("No Videos!")
-            body: qsTr("Add videos to the playlist.")
-        }
     }
 
     Player
@@ -47,6 +38,4 @@ Kirigami.ColumnView
             body: qsTr("Open a new video to start playing or add it to the playlist.")
         }
     }
-
-
 }
