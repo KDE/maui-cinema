@@ -14,7 +14,7 @@ Maui.Page
     readonly property bool paused : player.playbackState === MediaPlayer.PausedState
     readonly property bool stopped : player.playbackState === MediaPlayer.StoppedState
 
-    floatingFooter: player.visible
+    floatingFooter: player.visible && !_playlist.visible
     autoHideFooter: floatingFooter
 
     autoHideFooterMargins: control.height
