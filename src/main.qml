@@ -21,6 +21,7 @@ Maui.ApplicationWindow
     property bool selectionMode : false
 
     readonly property var views : ({player: 0, collection: 1, tags: 2})
+    property alias dialog : dialogLoader.item
 
     flickable: _appViews.currentItem ? _appViews.currentItem.flickable || null : null
 
@@ -46,25 +47,111 @@ Maui.ApplicationWindow
         {
             text: qsTr("Settings")
             icon.name: "folder-open"
-            onTriggered: _fileDialog.open()
+//            onTriggered: _fileDialog.open()
         }
     ]
 
-    Maui.FileDialog
+//    Maui.FileDialog
+//    {
+//        id: _fileDialog
+//        mode: modes.open
+//        settings.filterType: Maui.FMList.VIDEO
+//        settings.sortBy: Maui.FMList.MODIFIED
+//        singleSelection : true
+//        onUrlsSelected:
+//        {
+//            if(urls.length > 0)
+//            {
+//                _playerView.url = urls[0]
+//            }
+//        }
+//    }
+
+    DropArea
     {
-        id: _fileDialog
-        mode: modes.open
-        settings.filterType: Maui.FMList.VIDEO
-        settings.sortBy: Maui.FMList.MODIFIED
-        singleSelection : true
-        onUrlsSelected:
+        id: _dropArea
+        anchors.fill: parent
+        onDropped:
         {
-            if(urls.length > 0)
+            if(drop.urls)
             {
-                _playerView.url = urls[0]
+                VIEWER.openExternalPics(drop.urls, 0)
             }
         }
+
+        onExited:
+        {
+            if(swipeView.currentIndex === views.viewer)
+            {
+                swipeView.goBack()
+            }
+        }
+
+        onEntered:
+        {
+            if(drag.source)
+            {
+                return
+            }
+
+            swipeView.currentIndex = views.viewer
+        }
     }
+
+    Component
+    {
+        id: shareDialogComponent
+        Maui.ShareDialog {}
+    }
+
+    Component
+    {
+        id: tagsDialogComponent
+        Maui.TagsDialog
+        {
+            onTagsReady: composerList.updateToUrls(tags)
+            composerList.strict: false
+        }
+    }
+
+    Component
+    {
+        id: fmDialogComponent
+        Maui.FileDialog
+        {
+            mode: modes.SAVE
+            settings.filterType: Maui.FMList.IMAGE
+            settings.onlyDirs: false
+        }
+    }
+
+//    Component
+//    {
+//        id: _settingsDialogComponent
+//        SettingsDialog {}
+//    }
+
+    Maui.Dialog
+    {
+        id: removeDialog
+
+        title: i18n("Delete files?")
+        acceptButton.text: i18n("Accept")
+        rejectButton.text: i18n("Cancel")
+        message: i18n("Are sure you want to delete %1 files", String(selectionBar.count))
+        page.margins: Maui.Style.space.big
+        template.iconSource: "emblem-warning"
+        onRejected: close()
+        onAccepted:
+        {
+            for(var url of selectionBox.uris)
+                Maui.FM.removeFile(url)
+            selectionBox.clear()
+            close()
+        }
+    }
+
+    Loader { id: dialogLoader }
 
     Maui.AppViews
     {
@@ -146,6 +233,7 @@ Maui.ApplicationWindow
     function play(item)
     {
         _appViews.currentIndex = views.player
+        _playerView.playlist.append(item)
         _playerView.currentVideo = item
 
     }

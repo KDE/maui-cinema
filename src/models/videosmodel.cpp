@@ -20,12 +20,12 @@ VideosModel::VideosModel(QObject *parent) : MauiList(parent)
 {
 	qDebug()<< "CREATING GALLERY LIST";
 
-    connect(m_fileLoader, &FMH::FileLoader::finished,[](FMH::MODEL_LIST items)
+	connect(m_fileLoader, &FMH::FileLoader::finished,[](FMH::MODEL_LIST items)
 	{
 		qDebug() << "Items finished" << items.size();
 	});
 
-    connect(m_fileLoader, &FMH::FileLoader::itemsReady,[this](FMH::MODEL_LIST items)
+	connect(m_fileLoader, &FMH::FileLoader::itemsReady,[this](FMH::MODEL_LIST items)
 	{
 		emit this->preListChanged();
 		this-> list << items;
@@ -33,7 +33,7 @@ VideosModel::VideosModel(QObject *parent) : MauiList(parent)
 		emit countChanged(); //TODO this is a bug from mauimodel not changing the count right //TODO
 	});
 
-    connect(m_fileLoader, &FMH::FileLoader::itemReady,[this](FMH::MODEL item)
+	connect(m_fileLoader, &FMH::FileLoader::itemReady,[this](FMH::MODEL item)
 	{
 		this->insertFolder(item[FMH::MODEL_KEY::SOURCE]);
 
@@ -132,22 +132,22 @@ int VideosModel::limit() const
 
 void VideosModel::scan(const QList<QUrl> &urls, const bool &recursive, const int &limit)
 {
-	this->scanTags (extractTags (urls), recursive, limit);
-    m_fileLoader->requestPath(urls, recursive, FMH::FILTER_LIST[FMH::FILTER_TYPE::VIDEO]);
+	this->scanTags (extractTags (urls), limit);
+	m_fileLoader->requestPath(urls, recursive, FMH::FILTER_LIST[FMH::FILTER_TYPE::VIDEO]);
 }
 
-void VideosModel::scanTags(const QList<QUrl> & urls, const bool & recursive, const int & limit)
+void VideosModel::scanTags(const QList<QUrl> & urls, const int & limit)
 {
 	FMH::MODEL_LIST res;
 	for(const auto &tagUrl : urls)
 	{
-        auto items = Tagging::getInstance ()->getUrls(tagUrl.toString ().replace ("tags:///", ""), true, limit, "video");
+		auto items = Tagging::getInstance ()->getUrls(tagUrl.toString ().replace ("tags:///", ""), true, limit, "video");
 
 		for(const auto &item : items)
 		{
 			const auto url = QUrl(item.toMap ().value ("url").toString());
 			if(FMH::fileExists(url))
-                res << FMH::getFileInfoModel(url);
+				res << FMH::getFileInfoModel(url);
 		}
 	}
 
@@ -186,13 +186,6 @@ QList<QUrl> VideosModel::extractTags(const QList<QUrl> & urls)
 	});
 }
 
-QVariantMap VideosModel::get(const int &index) const
-{
-	if(index >= this->list.size() || index < 0)
-		return QVariantMap();
-	return FMH::toMap(this->list.at( this->mappedIndex(index)));
-}
-
 bool VideosModel::remove(const int &index)
 {
 	Q_UNUSED (index)
@@ -214,17 +207,17 @@ bool VideosModel::deleteAt(const int &index)
 	return true;
 }
 
-void VideosModel::append(const QVariantMap &pic)
+void VideosModel::append(const QVariantMap &item)
 {
 	emit this->preItemAppended();
-	this->list << FMH::toModel (pic);
+	this->list << FMH::toModel (item);
 	emit this->postItemAppended();
 }
 
 void VideosModel::append(const QString &url)
 {
 	emit this->preItemAppended();
-    this->list << FMH::getFileInfoModel(QUrl::fromUserInput (url));
+	this->list << FMH::getFileInfoModel(QUrl::fromUserInput (url));
 	emit this->postItemAppended();
 }
 

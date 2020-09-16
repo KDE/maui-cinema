@@ -45,20 +45,6 @@ Maui.AltBrowser
         onClicked: newTagDialog.open()
     }
 
-    Maui.NewDialog
-    {
-        id: newTagDialog
-        title: i18n("New tag")
-        message: i18n("Create a new tag to organize your collection")
-        acceptButton.text : i18n("Add")
-        onFinished:
-        {
-            tagsList.insert(text)
-        }
-
-        onRejected: close()
-    }
-
     model: Maui.BaseModel
     {
         id: _collectionModel
@@ -78,6 +64,24 @@ Maui.AltBrowser
         width: parent.width
         label: model.tag
         iconName: model.icon
+
+        onClicked:
+        {
+            control.currentIndex = index
+            if(Maui.Handy.singleClick)
+            {
+                populateGrid(model.tag)
+            }
+        }
+
+        onDoubleClicked:
+        {
+            control.currentIndex = index
+            if(!Maui.Handy.singleClick)
+            {
+                populateGrid(model.tag)
+            }
+        }
     }
 
     gridDelegate: CollageDelegate
@@ -96,14 +100,14 @@ Maui.AltBrowser
 
         template.label1.text: model.tag
         template.iconSource: model.icon
+        template.iconVisible: true
 
         onClicked:
         {
             control.currentIndex = index
             if(Maui.Handy.singleClick)
             {
-                currentTag = tagsList.get(index).tag
-                populateGrid(currentTag)
+                populateGrid(model.tag)
             }
         }
 
@@ -112,8 +116,7 @@ Maui.AltBrowser
             control.currentIndex = index
             if(!Maui.Handy.singleClick)
             {
-                currentTag = tagsList.get(index).tag
-                populateGrid(currentTag)
+                populateGrid(model.tag)
             }
         }
 

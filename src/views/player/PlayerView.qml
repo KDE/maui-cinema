@@ -9,6 +9,8 @@ Kirigami.ColumnView
     id: control
     property alias url : _player.url
     property alias player : _player
+    property alias playlist : _playlist
+
     property var currentVideo : ({})
 
     columnResizeMode:  Kirigami.SingleColumn
@@ -21,7 +23,7 @@ Kirigami.ColumnView
 
     Playlist
     {
-        id: _sideBar
+        id: _playlist
     }
 
     Player

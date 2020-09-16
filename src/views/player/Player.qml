@@ -21,7 +21,7 @@ Maui.Page
 
     background: Rectangle
     {
-        color: player.playbackState === MediaPlayer.PlayingState ? "#333" : Kirigami.theme.backGroundColor
+        color: player.playbackState === MediaPlayer.PlayingState ? "#333" : Kirigami.Theme.backGroundColor
     }
 
     Maui.Doodle
