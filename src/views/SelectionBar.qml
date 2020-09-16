@@ -39,9 +39,24 @@ Maui.SelectionBar
 
     Action
     {
-        text: i18n("View")
-        icon.name: "document-preview-archive"
-        onTriggered: VIEWER.openExternalPics(control.uris, 0)
+        text: i18n("Play")
+        icon.name: "media-playback-start"
+        onTriggered:
+        {
+            playItems(control.items, 0)
+            control.clear()
+        }
+    }
+
+    Action
+    {
+        text: i18n("Queue")
+        icon.name: "media-playlist-play"
+        onTriggered:
+        {
+            queueItems(control.items, 0)
+            control.clear()
+        }
     }
 
     Action

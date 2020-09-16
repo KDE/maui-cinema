@@ -16,6 +16,28 @@ Menu
 
     MenuItem
     {
+        text: i18n("Play")
+        icon.name: "media-playback-start"
+        onTriggered:
+        {
+            play(model.get(index))
+        }
+    }
+
+    MenuItem
+    {
+        text: i18n("Queue")
+        icon.name: "media-playlist-play"
+        onTriggered:
+        {
+            queue(model.get(index))
+        }
+    }
+
+    MenuSeparator{}
+
+    MenuItem
+    {
         text: i18n("Select")
         icon.name: "item-select"
         onTriggered:
@@ -23,12 +45,10 @@ Menu
             if(Kirigami.Settings.isMobile)
                 selectionMode = true
 
-            console.log(model.get(index).url)
             selectionBar.insert(model.get(index))
         }
     }
 
-    MenuSeparator{}
 
     MenuItem
     {

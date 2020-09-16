@@ -47,25 +47,25 @@ Maui.ApplicationWindow
         {
             text: qsTr("Settings")
             icon.name: "folder-open"
-//            onTriggered: _fileDialog.open()
+            //            onTriggered: _fileDialog.open()
         }
     ]
 
-//    Maui.FileDialog
-//    {
-//        id: _fileDialog
-//        mode: modes.open
-//        settings.filterType: Maui.FMList.VIDEO
-//        settings.sortBy: Maui.FMList.MODIFIED
-//        singleSelection : true
-//        onUrlsSelected:
-//        {
-//            if(urls.length > 0)
-//            {
-//                _playerView.url = urls[0]
-//            }
-//        }
-//    }
+    //    Maui.FileDialog
+    //    {
+    //        id: _fileDialog
+    //        mode: modes.open
+    //        settings.filterType: Maui.FMList.VIDEO
+    //        settings.sortBy: Maui.FMList.MODIFIED
+    //        singleSelection : true
+    //        onUrlsSelected:
+    //        {
+    //            if(urls.length > 0)
+    //            {
+    //                _playerView.url = urls[0]
+    //            }
+    //        }
+    //    }
 
     DropArea
     {
@@ -125,11 +125,11 @@ Maui.ApplicationWindow
         }
     }
 
-//    Component
-//    {
-//        id: _settingsDialogComponent
-//        SettingsDialog {}
-//    }
+    //    Component
+    //    {
+    //        id: _settingsDialogComponent
+    //        SettingsDialog {}
+    //    }
 
     Maui.Dialog
     {
@@ -172,7 +172,7 @@ Maui.ApplicationWindow
             Maui.AppView.iconName: qsTr("folder-videos")
         }
 
-       TagsView
+        TagsView
         {
             id: _tagsView
             Maui.AppView.title: qsTr("Tags")
@@ -191,16 +191,18 @@ Maui.ApplicationWindow
 
     footBar.preferredHeight: 100
     footBar.visible:  _appViews.currentIndex !== views.player && _playerView.player.playing
-    footBar.leftContent: [
+    footBar.middleContent: [
+
         ShaderEffectSource
         {
             Layout.fillHeight: true
-            Layout.preferredWidth: height*2
-
+            Layout.preferredWidth: sourceItem.width * (height /  sourceItem.height)
+            hideSource: visible
             live: true
             textureSize: Qt.size(width,height)
             sourceItem: _playerView.player.video
         },
+
 
         Maui.ToolActions
         {
@@ -225,16 +227,46 @@ Maui.ApplicationWindow
         {
             Layout.fillHeight: true
             Layout.fillWidth: true
+            //            Layout.preferredWidth: 500
             label1.text: _playerView.currentVideo.label
-            label2.text: _playerView.currentVideo.modified
+            label2.text: _playerView.currentVideo.path
         }
     ]
 
     function play(item)
     {
-        _appViews.currentIndex = views.player
-        _playerView.playlist.append(item)
-        _playerView.currentVideo = item
+        queue(item)
+        playAt(_playerView.playlist.list.count-1)
+    }
 
+    //Index of the video in the playlist
+    function playAt(index)
+    {
+        _appViews.currentIndex = views.player
+        _playerView.currentVideoIndex = index
+        _playerView.currentVideo = _playerView.playlist.model.get(index)
+    }
+
+    function playItems(items)
+    {
+        _playerView.playlist.list.clear()
+        for(var item of items)
+        {
+            queue(item)
+        }
+        playAt(0)
+    }
+
+    function queueItems(items)
+    {
+        for(var item of items)
+        {
+            queue(item)
+        }
+    }
+
+    function queue(item)
+    {
+        _playerView.playlist.append(item)
     }
 }

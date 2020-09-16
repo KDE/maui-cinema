@@ -11,10 +11,12 @@
         <file>views/tags/TagsGrid.qml</file>
         <file>views/BrowserLayout.qml</file>
         <file>views/ItemMenu.qml</file>
+        <file>views/ListDelegate.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>assets/cinema.svg</file>
         <file>assets/tag.svg</file>
         <file>assets/view-media-video.svg</file>
+        <file>assets/media-playlist-append.svg</file>
     </qresource>
 </RCC>

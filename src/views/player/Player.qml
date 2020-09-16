@@ -19,10 +19,9 @@ Maui.Page
 
     autoHideFooterMargins: control.height
 
-    background: Rectangle
-    {
-        color: player.playbackState === MediaPlayer.PlayingState ? "#333" : Kirigami.Theme.backGroundColor
-    }
+    Kirigami.Theme.inherit: false
+    Kirigami.Theme.backgroundColor: "#333"
+    Kirigami.Theme.textColor: "#fafafa"
 
     Maui.Doodle
     {
@@ -88,7 +87,9 @@ Maui.Page
     footBar.leftContent:[
         ToolButton
         {
-            icon.name: "view-media-playlist"
+            icon.name: "view-split-top-bottom"
+            checked: _playlist.visible
+            onClicked: _playlist.visible = !_playlist.visible
         },
         Maui.ToolActions
         {

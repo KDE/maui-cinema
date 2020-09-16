@@ -16,15 +16,9 @@ BrowserLayout
 
     list.urls: Cinema.Cinema.sources
 
-
     onItemClicked:
     {
         play(item)
-    }
-
-
-    onItemRightClicked:
-    {
     }
 
 }

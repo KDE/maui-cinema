@@ -52,6 +52,11 @@ StackView
                 icon.name: "go-previous"
                 onClicked: control.pop()
             }
+
+            onItemClicked:
+            {
+                play(item)
+            }
         }
     }
 

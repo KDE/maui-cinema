@@ -8,11 +8,11 @@ import org.kde.kirigami 2.8 as Kirigami
 
 import org.maui.cinema 1.0 as Cinema
 
-
 Maui.AltBrowser
 {
     id: control
     property alias list : _collectionList
+    property alias listModel : _collectionModel
 
     signal itemClicked(var item)
     signal itemRightClicked(var item)
@@ -28,11 +28,13 @@ Maui.AltBrowser
     holder.visible: _collectionList.count === 0
     holder.emojiSize: Maui.Style.iconSizes.huge
 
-    Binding on viewType
-    {
-        value: control.width < Kirigami.Units.gridUnit * 30 ? Maui.AltBrowser.ViewType.List : Maui.AltBrowser.ViewType.Grid
-        restoreMode: Binding.RestoreBinding
-    }
+    viewType: control.width < Kirigami.Units.gridUnit * 30 ? Maui.AltBrowser.ViewType.List : Maui.AltBrowser.ViewType.Grid
+
+    //    Binding on viewType
+//    {
+//        value: control.width < Kirigami.Units.gridUnit * 30 ? Maui.AltBrowser.ViewType.List : Maui.AltBrowser.ViewType.Grid
+//        restoreMode: Binding.RestoreBinding
+//    }
 
     Connections
     {
@@ -116,102 +118,76 @@ Maui.AltBrowser
         }
     }
 
-    listDelegate: Maui.ListBrowserDelegate
+    listDelegate: ListDelegate
     {
         id: _listDelegate
 
-        width: parent.width
-        height: Maui.Style.rowHeight * 2
-        leftPadding: Maui.Style.space.small
-        rightPadding: Maui.Style.space.small
-        isCurrentItem: ListView.isCurrentItem
-        draggable: true
-        opacity: model.hidden == "true" ? 0.5 : 1
-        tooltipText: model.path
-        checkable: root.selectionMode
-        checked: (selectionBar ? selectionBar.contains(model.path) : false)
-
-        Drag.keys: ["text/uri-list"]
-        Drag.mimeData: Drag.active ?
-                           {
-                               "text/uri-list": control.filterSelectedItems(model.path)
-                           } : {}
-
-    iconSizeHint: height * 0.9
-    label1.text: model.label
-    label2.text: model.path
-    label3.text: model.mime
-    label4.text: Qt.formatDateTime(new Date(model.modified), "d MMM yyyy")
-    imageSource: "image://thumbnailer/"+model.path
-    //    template.imageHeight: height
-    //    template.imageWidth: width
-    template.fillMode: Image.PreserveAspectCrop
-
-
-    onToggled:
-    {
-        control.currentIndex = index
-        control.currentView.itemsSelected([index])
-    }
-
-    onClicked:
-    {
-        control.currentIndex = index
-
-        if ((mouse.button == Qt.LeftButton) && (mouse.modifiers & Qt.ControlModifier))
+        onToggled:
         {
+            control.currentIndex = index
             control.currentView.itemsSelected([index])
-        }else
-        {
-           control.itemClicked(model)
         }
-    }
 
-    onDoubleClicked:
-    {
-        control.currentIndex = index
-        control.itemDoubleClicked(index)
-    }
-
-    onPressAndHold:
-    {
-        if(!Maui.Handy.isTouch)
-            return
-
-        control.currentIndex = index
-        control.itemRightClicked(index)
-        _menu.popup()
-    }
-
-    onRightClicked:
-    {
-        control.currentIndex = index
-        control.itemRightClicked(index)
-         _menu.popup()
-    }
-
-    Connections
-    {
-        target: selectionBar
-
-        function onUriRemoved(uri)
+        onClicked:
         {
-            if(uri === model.path)
+            control.currentIndex = index
+            if(selectionMode || (mouse.button == Qt.LeftButton && (mouse.modifiers & Qt.ControlModifier)))
+            {
+                control.currentView.itemsSelected([index])
+            }else if(Maui.Handy.singleClick)
+            {
+                control.itemClicked(model)
+            }
+        }
+
+        onDoubleClicked:
+        {
+            control.currentIndex = index
+            if(!Maui.Handy.singleClick && !selectionMode)
+            {
+                control.itemClicked(model)
+            }
+        }
+
+        onPressAndHold:
+        {
+            if(!Maui.Handy.isTouch)
+                return
+
+            control.currentIndex = index
+            control.itemRightClicked(index)
+            _menu.popup()
+        }
+
+        onRightClicked:
+        {
+            control.currentIndex = index
+            control.itemRightClicked(index)
+            _menu.popup()
+        }
+
+        Connections
+        {
+            target: selectionBar
+
+            function onUriRemoved(uri)
+            {
+                if(uri === model.path)
+                    _listDelegate.checked = false
+            }
+
+            function onUriAdded(uri)
+            {
+                if(uri === model.path)
+                    _listDelegate.checked = true
+            }
+
+            function onCleared(uri)
+            {
                 _listDelegate.checked = false
-        }
-
-        function onUriAdded(uri)
-        {
-            if(uri === model.path)
-                _listDelegate.checked = true
-        }
-
-        function onCleared(uri)
-        {
-            _listDelegate.checked = false
+            }
         }
     }
-}
 
 gridDelegate: Item
 {
@@ -250,20 +226,22 @@ gridDelegate: Item
         onClicked:
         {
             control.currentIndex = index
-
-            if ((mouse.button == Qt.LeftButton) && (mouse.modifiers & Qt.ControlModifier))
+            if(selectionMode || (mouse.button == Qt.LeftButton && (mouse.modifiers & Qt.ControlModifier)))
             {
                 control.currentView.itemsSelected([index])
-            }else
+            }else if(Maui.Handy.singleClick)
             {
-                control.itemClicked(model)
+               control.itemClicked(model)
             }
         }
 
         onDoubleClicked:
         {
             control.currentIndex = index
-            control.itemDoubleClicked(index)
+            if(!Maui.Handy.singleClick && !selectionMode)
+            {
+                control.itemClicked(model)
+            }
         }
 
         onPressAndHold:
@@ -272,14 +250,14 @@ gridDelegate: Item
             return
 
             control.currentIndex = index
-            control.itemRightClicked(index)
+            control.itemRightClicked(model)
             _menu.popup()
         }
 
         onRightClicked:
         {
             control.currentIndex = index
-            control.itemRightClicked(index)
+            control.itemRightClicked(model)
             _menu.popup()
         }
 

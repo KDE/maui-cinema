@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import org.kde.mauikit 1.2 as Maui
 import org.kde.kirigami 2.8 as Kirigami
 
-Kirigami.ColumnView
+SplitView
 {
     id: control
     property alias url : _player.url
@@ -12,24 +12,53 @@ Kirigami.ColumnView
     property alias playlist : _playlist
 
     property var currentVideo : ({})
+    property int currentVideoIndex : -1
 
-    columnResizeMode:  Kirigami.SingleColumn
-    columnWidth: Math.min(Kirigami.Units.gridUnit * 12, control.width)
+    orientation: Qt.Vertical
 
     onCurrentVideoChanged:
     {
-        url = currentVideo.path
+        url = currentVideo.url
     }
 
-    Playlist
+    handle: Rectangle
     {
-        id: _playlist
+        implicitWidth: 6
+        implicitHeight: 6
+        color: SplitHandle.pressed ? Kirigami.Theme.highlightColor
+                                   : (SplitHandle.hovered ? Qt.lighter(Kirigami.Theme.backgroundColor, 1.1) : Kirigami.Theme.backgroundColor)
+
+        Rectangle
+        {
+            anchors.centerIn: parent
+            width: 48
+            height: parent.height
+            color: _splitSeparator.color
+        }
+
+        Kirigami.Separator
+        {
+            id: _splitSeparator
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            anchors.left: parent.left
+        }
+
+        Kirigami.Separator
+        {
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.left: parent.left
+        }
     }
 
     Player
     {
         id: _player
-        Kirigami.ColumnView.fillWidth: true
+        SplitView.fillWidth: true
+        SplitView.fillHeight: true
+        SplitView.minimumHeight: 250
+        SplitView.preferredHeight: 500
 
         Maui.Holder
         {
@@ -40,4 +69,13 @@ Kirigami.ColumnView
             body: qsTr("Open a new video to start playing or add it to the playlist.")
         }
     }
+
+    Playlist
+    {
+        id: _playlist
+        SplitView.fillWidth: true
+        SplitView.minimumHeight: 100
+        SplitView.preferredHeight: Math.min(500, _playlist.currentView.contentHeight)
+    }
+
 }
