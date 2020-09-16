@@ -233,6 +233,26 @@ Maui.ApplicationWindow
         }
     ]
 
+    function playNext()
+    {
+        if(_playerView.playlist.list.count > 0)
+        {
+            const next = _playerView.currentVideoIndex+1 >= _playerView.playlist.list.count ? 0 : _playerView.currentVideoIndex+1
+
+            playAt(next)
+        }
+    }
+
+    function playPrevious()
+    {
+        if(_playerView.playlist.list.count > 0)
+        {
+            const previous = _playerView.currentVideoIndex-1 >= 0 ? _playerView.currentVideoIndex-1 : _playerView.playlist.list.count-1
+
+            playAt(previous)
+        }
+    }
+
     function play(item)
     {
         queue(item)
@@ -242,9 +262,12 @@ Maui.ApplicationWindow
     //Index of the video in the playlist
     function playAt(index)
     {
-        _appViews.currentIndex = views.player
-        _playerView.currentVideoIndex = index
-        _playerView.currentVideo = _playerView.playlist.model.get(index)
+        if((index < _playerView.playlist.list.count) && (index > -1))
+        {
+            _appViews.currentIndex = views.player
+            _playerView.currentVideoIndex = index
+            _playerView.currentVideo = _playerView.playlist.model.get(index)
+        }
     }
 
     function playItems(items)

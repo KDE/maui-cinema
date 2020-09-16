@@ -84,19 +84,55 @@ Maui.Page
     }
 
     footBar.visible: player.playbackState !== MediaPlayer.StoppedState
-    footBar.leftContent:[
-        ToolButton
+
+    footerColumn: Maui.ToolBar
+    {
+        position: ToolBar.Footer
+       width: parent.width
+        leftContent: Label
         {
-            icon.name: "view-split-top-bottom"
-            checked: _playlist.visible
-            onClicked: _playlist.visible = !_playlist.visible
-        },
+            text: Maui.FM.formatTime((player.duration - player.position)/1000)
+        }
+
+        rightContent: Label
+        {
+            text: Maui.FM.formatTime(player.duration/1000)
+        }
+
+        middleContent:Slider
+        {
+            id: _slider
+            enabled: control.playing || control.paused
+            Layout.fillWidth: true
+            implicitWidth: 0
+            orientation: Qt.Horizontal
+            from: 0
+            to: 1000
+            value: (1000 * player.position) / player.duration
+
+            onMoved: player.seek((_slider.value / 1000) * player.duration)
+        }
+    }
+
+    footBar.leftContent: ToolButton
+    {
+        icon.name: "view-split-top-bottom"
+        checked: _playlist.visible
+        onClicked: _playlist.visible = !_playlist.visible
+    }
+
+    footBar.middleContent:[
+
         Maui.ToolActions
         {
             expanded: true
+            checkable: false
+            autoExclusive: false
+
             Action
             {
                 icon.name: "media-skip-backward"
+                onTriggered: playPrevious()
             }
 
             Action
@@ -108,14 +144,11 @@ Maui.Page
             Action
             {
                 icon.name: "media-skip-forward"
+                onTriggered: playNext()
             }
         }]
 
     footBar.rightContent: [
-        Label
-        {
-            text: Maui.FM.formatTime((player.duration - player.position)/1000)
-        },
 
         ToolButton
         {
@@ -125,16 +158,4 @@ Maui.Page
         }
     ]
 
-    footBar.middleContent : Slider
-    {
-        id: _slider
-        enabled: control.playing || control.paused
-        Layout.fillWidth: true
-        orientation: Qt.Horizontal
-        from: 0
-        to: 1000
-        value: (1000 * player.position) / player.duration
-
-        onMoved: player.seek((_slider.value / 1000) * player.duration)
-    }
 }
