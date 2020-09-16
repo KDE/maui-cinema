@@ -14,51 +14,50 @@ SplitView
     property var currentVideo : ({})
     property int currentVideoIndex : -1
 
-    orientation: Qt.Vertical
+    orientation: control.width > 750 ? Qt.Horizontal : Qt.Vertical
 
     onCurrentVideoChanged:
     {
         url = currentVideo.url
     }
 
-    handle: Rectangle
+    Component
     {
-        implicitWidth: 6
-        implicitHeight: 6
-        color: SplitHandle.pressed ? Kirigami.Theme.highlightColor
-                                   : (SplitHandle.hovered ? Qt.lighter(Kirigami.Theme.backgroundColor, 1.1) : Kirigami.Theme.backgroundColor)
+        id: _verticalHandle
 
-        Rectangle
-        {
-            anchors.centerIn: parent
-            width: 48
-            height: parent.height
-            color: _splitSeparator.color
-        }
-
-        Kirigami.Separator
-        {
-            id: _splitSeparator
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            anchors.left: parent.left
-        }
-
-        Kirigami.Separator
+        Maui.Separator
         {
             anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            position: Qt.Vertical
         }
     }
 
-    Player
+    Component
+    {
+        id: _horizontalHandle
+
+        Maui.Separator
+        {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            position: Qt.Horizontal
+        }
+    }
+
+    handle: orientation == Qt.Horizontal ? _verticalHandle : _horizontalHandle
+
+        Player
     {
         id: _player
         SplitView.fillWidth: true
         SplitView.fillHeight: true
-        SplitView.minimumHeight: 250
-        SplitView.preferredHeight: 500
+
+        SplitView.minimumWidth: control.orientation === Qt.Horizontal ? 500 : 0
+        SplitView.preferredWidth: control.orientation === Qt.Horizontal ? 200 : width
+
+        SplitView.minimumHeight: control.orientation === Qt.Vertical ? 500 : 0
+        SplitView.preferredHeight: control.orientation === Qt.vertical ? 500 : height
 
         Maui.Holder
         {
@@ -73,9 +72,17 @@ SplitView
     Playlist
     {
         id: _playlist
+        visible: list.count > 0
         SplitView.fillWidth: true
-        SplitView.minimumHeight: 100
-        SplitView.preferredHeight: Math.min(500, _playlist.currentView.contentHeight)
+
+        SplitView.minimumHeight: control.orientation === Qt.Vertical ? 100 : 0
+        SplitView.preferredHeight: control.orientation === Qt.vertical ?  Math.min(500, _playlist.currentView.contentHeight) : height
+
+        SplitView.maximumWidth: control.orientation === Qt.Horizontal ? 250 : width
+        SplitView.minimumWidth: control.orientation === Qt.Horizontal ? 250 : 0
+        SplitView.preferredWidth: control.orientation === Qt.Horizontal ? 250 : width
+
+
     }
 
 }

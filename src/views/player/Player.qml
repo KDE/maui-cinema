@@ -83,10 +83,11 @@ Maui.Page
         }
     }
 
-    footBar.visible: player.playbackState !== MediaPlayer.StoppedState
+    footBar.visible: true
 
     footerColumn: Maui.ToolBar
     {
+        enabled: player.playbackState !== MediaPlayer.StoppedState
         position: ToolBar.Footer
        width: parent.width
         leftContent: Label
@@ -116,10 +117,25 @@ Maui.Page
 
     footBar.leftContent: ToolButton
     {
-        icon.name: "view-split-top-bottom"
-        checked: _playlist.visible
-        onClicked: _playlist.visible = !_playlist.visible
+        visible: !Kirigami.Settings.isMobile
+        icon.name: "view-fullscreen"
+        onClicked: toogleFullscreen()
+        checked: fullScreen
     }
+
+    footBar.rightContent: [
+        ToolButton
+        {
+            icon.name: "view-split-top-bottom"
+            checked: _playlist.visible
+            onClicked: _playlist.visible = !_playlist.visible
+        },
+
+        Maui.Badge
+        {
+            text: _playlist.list.count
+        }
+    ]
 
     footBar.middleContent:[
 
@@ -137,6 +153,9 @@ Maui.Page
 
             Action
             {
+                enabled: player.playbackState !== MediaPlayer.StoppedState
+                icon.width: Maui.Style.iconSizes.big
+                icon.height: Maui.Style.iconSizes.big
                 icon.name: player.playbackState === MediaPlayer.PlayingState ? "media-playback-pause" : "media-playback-start"
                 onTriggered: player.playbackState === MediaPlayer.PlayingState ? player.pause() : player.play()
             }
@@ -147,15 +166,4 @@ Maui.Page
                 onTriggered: playNext()
             }
         }]
-
-    footBar.rightContent: [
-
-        ToolButton
-        {
-            icon.name: "tool_pen"
-            onClicked: _doodle.open()
-
-        }
-    ]
-
 }
