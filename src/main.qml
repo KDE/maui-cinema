@@ -18,7 +18,7 @@ Maui.ApplicationWindow
     id: root
 
     floatingHeader: autoHideHeader
-    autoHideHeader: _appViews.currentIndex === 0 && _playerView.player.playing
+    autoHideHeader: _appViews.currentIndex === 0 && _playerView.player.playing && (_playerView.orientation === Qt.Vertical || !_playerView.playlist.visible)
     property bool selectionMode : false
 
     readonly property var views : ({player: 0, collection: 1, tags: 2})

@@ -37,17 +37,25 @@ SplitView
     {
         id: _horizontalHandle
 
-        Maui.Separator
+        Item
         {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            position: Qt.Horizontal
+            implicitHeight: Maui.Handy.isTouch ? 10 : 6
+            implicitWidth: implicitHeight
+
+            Maui.Separator
+            {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                position: Qt.Horizontal
+            }
         }
+
     }
 
     handle: orientation == Qt.Horizontal ? _verticalHandle : _horizontalHandle
 
-        Player
+    Player
     {
         id: _player
         SplitView.fillWidth: true
@@ -56,7 +64,7 @@ SplitView
         SplitView.minimumWidth: control.orientation === Qt.Horizontal ? 500 : 0
         SplitView.preferredWidth: control.orientation === Qt.Horizontal ? 200 : width
 
-        SplitView.minimumHeight: control.orientation === Qt.Vertical ? 500 : 0
+        SplitView.minimumHeight: control.orientation === Qt.Vertical ? control.height * 0.5 : 0
         SplitView.preferredHeight: control.orientation === Qt.vertical ? 500 : height
 
         Maui.Holder

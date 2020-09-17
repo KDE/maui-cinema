@@ -22,13 +22,6 @@ Maui.Page
     Kirigami.Theme.inherit: false
     Kirigami.Theme.backgroundColor: "#333"
     Kirigami.Theme.textColor: "#fafafa"
-
-    Maui.Doodle
-    {
-        id: _doodle
-        sourceItem: video
-    }
-
     //    Connections
     //    {
     //        target: _appViews
@@ -85,36 +78,52 @@ Maui.Page
 
     footBar.visible: true
 
-    footerColumn: Maui.ToolBar
-    {
-        enabled: player.playbackState !== MediaPlayer.StoppedState
-        position: ToolBar.Footer
-       width: parent.width
-        leftContent: Label
+    footerColumn: [
+        Maui.TagsBar
         {
-            text: Maui.FM.formatTime((player.duration - player.position)/1000)
-        }
+            id: tagBar
+            position: ToolBar.Footer
+            width: parent.width
+            allowEditMode: true
+            onTagsEdited:
+            {
+                tagBar.list.updateToUrls(tags)
+            }
 
-        rightContent: Label
+            list.strict: true
+            list.urls:  [control.url]
+        },
+
+        Maui.ToolBar
         {
-            text: Maui.FM.formatTime(player.duration/1000)
+            enabled: player.playbackState !== MediaPlayer.StoppedState
+            position: ToolBar.Footer
+            width: parent.width
+            leftContent: Label
+            {
+                text: Maui.FM.formatTime((player.duration - player.position)/1000)
+            }
+
+            rightContent: Label
+            {
+                text: Maui.FM.formatTime(player.duration/1000)
+            }
+
+            middleContent:Slider
+            {
+                id: _slider
+                enabled: control.playing || control.paused
+                Layout.fillWidth: true
+                implicitWidth: 0
+                orientation: Qt.Horizontal
+                from: 0
+                to: 1000
+                value: (1000 * player.position) / player.duration
+
+                onMoved: player.seek((_slider.value / 1000) * player.duration)
+            }
         }
-
-        middleContent:Slider
-        {
-            id: _slider
-            enabled: control.playing || control.paused
-            Layout.fillWidth: true
-            implicitWidth: 0
-            orientation: Qt.Horizontal
-            from: 0
-            to: 1000
-            value: (1000 * player.position) / player.duration
-
-            onMoved: player.seek((_slider.value / 1000) * player.duration)
-        }
-    }
-
+    ]
     footBar.leftContent: ToolButton
     {
         visible: !Kirigami.Settings.isMobile
