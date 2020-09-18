@@ -47,6 +47,7 @@ Maui.ListBrowser
     delegate: ListDelegate
     {
         id: _listDelegate
+        width: parent.width
 
         onToggled:
         {

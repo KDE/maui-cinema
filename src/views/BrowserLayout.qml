@@ -17,11 +17,7 @@ Maui.AltBrowser
     signal itemClicked(var item)
     signal itemRightClicked(var item)
 
-    gridView.margins: Maui.Style.space.medium
     gridView.itemSize: 180
-
-    listView.topMargin: Maui.Style.contentMargins
-    listView.spacing: Maui.Style.space.big
 
     enableLassoSelection: true
 
@@ -121,6 +117,7 @@ Maui.AltBrowser
     listDelegate: ListDelegate
     {
         id: _listDelegate
+        width: parent.width
 
         onToggled:
         {

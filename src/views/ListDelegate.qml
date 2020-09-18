@@ -8,10 +8,8 @@ Maui.ListBrowserDelegate
 {
     id: control
 
-    width: parent.width
-    height: Maui.Style.rowHeight * 2
-    leftPadding: Maui.Style.space.small
-    rightPadding: Maui.Style.space.small
+    implicitHeight: Maui.Style.rowHeight * 2
+
     isCurrentItem: ListView.isCurrentItem
     draggable: true
     tooltipText: model.path

@@ -14,11 +14,7 @@ Maui.AltBrowser
 {
     id: control
 
-    gridView.margins: Maui.Style.space.medium
     gridView.itemSize: 180
-
-    listView.topMargin: Maui.Style.contentMargins
-    listView.spacing: Maui.Style.space.big
 
     holder.visible: _tagsList.count === 0
     holder.emojiSize: Maui.Style.iconSizes.huge
