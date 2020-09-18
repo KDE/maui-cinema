@@ -117,7 +117,7 @@ Maui.AltBrowser
     listDelegate: ListDelegate
     {
         id: _listDelegate
-        width: parent.width
+        width: ListView.view.width
 
         onToggled:
         {

@@ -19,7 +19,7 @@ Maui.SelectionBar
     {
         Kirigami.Theme.inherit: true
         height: Maui.Style.toolBarHeight
-        width: parent.width
+        width: ListView.view.width
 
         background: Item {}
 
