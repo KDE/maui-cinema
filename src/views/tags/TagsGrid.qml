@@ -57,7 +57,7 @@ Maui.AltBrowser
 
     listDelegate: Maui.ListDelegate
     {
-        width: parent.width
+        width: ListView.view.width
         label: model.tag
         iconName: model.icon
 
