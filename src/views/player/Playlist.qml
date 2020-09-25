@@ -47,7 +47,8 @@ Maui.ListBrowser
     delegate: ListDelegate
     {
         id: _listDelegate
-        width: parent.width
+        width: ListView.view.width
+        implicitHeight: Maui.Style.rowHeight * 1.5
 
         onToggled:
         {

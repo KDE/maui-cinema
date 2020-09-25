@@ -24,6 +24,7 @@ Maui.ApplicationWindow
     readonly property var views : ({player: 0, collection: 1, tags: 2})
     property alias dialog : dialogLoader.item
 
+    floatingFooter: true
     flickable: _appViews.currentItem ? _appViews.currentItem.flickable || null : null
 
     /***MODELS****/
