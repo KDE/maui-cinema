@@ -28,7 +28,7 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${ECM_MODULE_PATH})
 
 find_package(MauiKit REQUIRED)
-find_package(Qt5 COMPONENTS Sql Qml Svg Core Quick LinguistTools REQUIRED)
+find_package(Qt5 COMPONENTS Sql Qml Svg Core Quick REQUIRED)
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(ECMSetupVersion)
