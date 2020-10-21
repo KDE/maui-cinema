@@ -2,9 +2,12 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.13
+import QtMultimedia 5.8
 
 import org.kde.mauikit 1.2 as Maui
 import org.kde.kirigami 2.8 as Kirigami
+
+import org.maui.cinema 1.0 as Cinema
 
 import TagsList 1.0
 
@@ -17,8 +20,9 @@ Maui.ApplicationWindow
 {
     id: root
 
-    floatingHeader: autoHideHeader
-    autoHideHeader: _appViews.currentIndex === 0 && _playerView.player.playing && (_playerView.orientation === Qt.Vertical || !_playerView.playlist.visible)
+    floatingHeader: _appViews.currentIndex === 0 && _playerView.player.playing && (_playerView.orientation === Qt.Vertical || !_playerView.playlist.visible)
+    autoHideHeader: _appViews.currentIndex === 0 && _playerView.player.playing
+
     property bool selectionMode : false
 
     readonly property var views : ({player: 0, collection: 1, tags: 2})
@@ -42,32 +46,20 @@ Maui.ApplicationWindow
         {
             text: qsTr("Open")
             icon.name: "folder-open"
-            onTriggered: _fileDialog.open()
-        },
-
-        Action
-        {
-            text: qsTr("Settings")
-            icon.name: "folder-open"
-            //            onTriggered: _fileDialog.open()
+            onTriggered:
+            {
+                dialogLoader.sourceComponent= fmDialogComponent
+                dialog.mode = dialog.modes.OPEN
+                dialog.settings.filterType= Maui.FMList.VIDEO
+                dialog.settings.onlyDirs= false
+                dialog.show(function(paths)
+                {
+                    console.log("OPEN THIS PATHS", paths)
+                    Cinema.Cinema.openVideos(paths)
+                });
+            }
         }
     ]
-
-    //    Maui.FileDialog
-    //    {
-    //        id: _fileDialog
-    //        mode: modes.open
-    //        settings.filterType: Maui.FMList.VIDEO
-    //        settings.sortBy: Maui.FMList.MODIFIED
-    //        singleSelection : true
-    //        onUrlsSelected:
-    //        {
-    //            if(urls.length > 0)
-    //            {
-    //                _playerView.url = urls[0]
-    //            }
-    //        }
-    //    }
 
     DropArea
     {
@@ -127,12 +119,6 @@ Maui.ApplicationWindow
         }
     }
 
-    //    Component
-    //    {
-    //        id: _settingsDialogComponent
-    //        SettingsDialog {}
-    //    }
-
     Maui.Dialog
     {
         id: removeDialog
@@ -191,8 +177,8 @@ Maui.ApplicationWindow
         maxListHeight: _appViews.height - Maui.Style.space.medium
     }
 
-    footBar.preferredHeight: 100
-    footBar.visible:  _appViews.currentIndex !== views.player && _playerView.player.playing
+    footBar.preferredHeight: 64
+    footBar.visible:  _appViews.currentIndex !== views.player && !_playerView.player.stopped
     footBar.middleContent: [
 
         ShaderEffectSource
@@ -205,23 +191,31 @@ Maui.ApplicationWindow
             sourceItem: _playerView.player.video
         },
 
-
         Maui.ToolActions
         {
             expanded: true
+            checkable: false
+            autoExclusive: false
+
             Action
             {
                 icon.name: "media-skip-backward"
+                onTriggered: playPrevious()
             }
 
             Action
             {
-                icon.name: "media-playback-start"
+                enabled: _playerView.player.video.playbackState !== MediaPlayer.StoppedState
+                icon.width: Maui.Style.iconSizes.big
+                icon.height: Maui.Style.iconSizes.big
+                icon.name: _playerView.player.video.playbackState === MediaPlayer.PlayingState ? "media-playback-pause" : "media-playback-start"
+                onTriggered: _playerView.player.video.playbackState === MediaPlayer.PlayingState ? _playerView.player.video.pause() : _playerView.player.video.play()
             }
 
             Action
             {
                 icon.name: "media-skip-forward"
+                onTriggered: playNext()
             }
         },
 
@@ -234,6 +228,16 @@ Maui.ApplicationWindow
             label2.text: _playerView.currentVideo.path
         }
     ]
+
+    Connections
+    {
+        target: Cinema.Cinema
+        function onOpenUrls(urls)
+        {
+            for(var url of urls)
+                _playerView.playlist.list.append(url)
+        }
+    }
 
     function playNext()
     {
@@ -266,7 +270,7 @@ Maui.ApplicationWindow
     {
         if((index < _playerView.playlist.list.count) && (index > -1))
         {
-            _appViews.currentIndex = views.player
+//            _appViews.currentIndex = views.player
             _playerView.currentVideoIndex = index
             _playerView.currentVideo = _playerView.playlist.model.get(index)
         }

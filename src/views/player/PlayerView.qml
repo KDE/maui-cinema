@@ -89,8 +89,6 @@ SplitView
         SplitView.maximumWidth: control.orientation === Qt.Horizontal ? 250 : width
         SplitView.minimumWidth: control.orientation === Qt.Horizontal ? 250 : 0
         SplitView.preferredWidth: control.orientation === Qt.Horizontal ? 250 : width
-
-
     }
 
 }

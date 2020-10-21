@@ -21,9 +21,9 @@ QStringList Cinema::sources() const
 	return getSourcePaths();
 }
 
-void Cinema::openVideos(const QList<QUrl> &pics)
+void Cinema::openVideos(const QList<QUrl> &urls)
 {
-	emit this->viewPics(QUrl::toStringList(pics));
+	emit this->openUrls(QUrl::toStringList(urls));
 }
 
 void Cinema::refreshCollection()
