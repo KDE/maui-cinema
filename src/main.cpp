@@ -20,7 +20,10 @@
 #include <MauiKit/mauiapp.h>
 #endif
 
+#ifndef STATIC_MAUIKIT
 #include "cinema_version.h"
+#endif
+
 #include "src/models/videosmodel.h"
 #include "src/models/tagsmodel.h"
 
