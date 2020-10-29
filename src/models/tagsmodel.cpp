@@ -8,10 +8,10 @@
 
 TagsModel::TagsModel(QObject *parent) : MauiList(parent)
 {
-    connect(Tagging::getInstance(), &Tagging::tagged, [this](QString tag)
+    connect(Tagging::getInstance(), &Tagging::tagged, [this](QVariantMap tag)
     {
         emit this->preItemAppended();
-        this->list << (this->packPlaylist(tag));
+        this->list << (this->packPlaylist(tag.value("tag").toString()));
         emit this->postItemAppended();
     });
 }
