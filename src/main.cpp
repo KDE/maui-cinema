@@ -29,8 +29,11 @@
 
 #include "src/utils/cinema.h"
 
-#include <KI18n/KLocalizedContext>
+#if defined Q_OS_MACOS || defined Q_OS_WIN
+#include <KF5/KI18n/KLocalizedString>
+#else
 #include <KI18n/KLocalizedString>
+#endif
 
 #define CINEMA_URI "org.maui.cinema"
 
@@ -72,10 +75,10 @@ static const QList<QUrl> openFiles(const QStringList &files)
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    QCoreApplication::setAttribute(Qt::AA_DisableSessionManager, true);
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
+	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+	QCoreApplication::setAttribute(Qt::AA_DisableSessionManager, true);
 
 #ifdef Q_OS_ANDROID
 	QGuiApplication app(argc, argv);
@@ -89,25 +92,25 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 	app.setWindowIcon(QIcon(":/img/assets/cinema.svg"));
 
 	MauiApp::instance()->setIconName("qrc:/img/assets/cinema.svg");
-    MauiApp::instance()->setHandleAccounts(false);
+	MauiApp::instance()->setHandleAccounts(false);
 
-    KLocalizedString::setApplicationDomain("cinema");
-    KAboutData about(QStringLiteral("cinema"), i18n("Cinema"), CINEMA_VERSION_STRING, i18n("Video collection manager and player."),
-                     KAboutLicense::LGPL_V3, i18n("© 2020 Nitrux Development Team"));
-    about.addAuthor(i18n("Camilo Higuita"), i18n("Developer"), QStringLiteral("milo.h@aol.com"));
-    about.setHomepage("https://mauikit.org");
-    about.setProductName("maui/cinema");
-    about.setBugAddress("https://invent.kde.org/maui/buho/-/issues");
-    about.setOrganizationDomain(CINEMA_URI);
-    about.setProgramLogo(app.windowIcon());
+	KLocalizedString::setApplicationDomain("cinema");
+	KAboutData about(QStringLiteral("cinema"), i18n("Cinema"), CINEMA_VERSION_STRING, i18n("Video collection manager and player."),
+					 KAboutLicense::LGPL_V3, i18n("© 2020 Nitrux Development Team"));
+	about.addAuthor(i18n("Camilo Higuita"), i18n("Developer"), QStringLiteral("milo.h@aol.com"));
+	about.setHomepage("https://mauikit.org");
+	about.setProductName("maui/cinema");
+	about.setBugAddress("https://invent.kde.org/maui/buho/-/issues");
+	about.setOrganizationDomain(CINEMA_URI);
+	about.setProgramLogo(app.windowIcon());
 
-    KAboutData::setApplicationData(about);
+	KAboutData::setApplicationData(about);
 
-    QCommandLineParser parser;
-    parser.process(app);
+	QCommandLineParser parser;
+	parser.process(app);
 
-    about.setupCommandLine(&parser);
-    about.processCommandLine(&parser);
+	about.setupCommandLine(&parser);
+	about.processCommandLine(&parser);
 
 	const QStringList args = parser.positionalArguments();
 
@@ -135,9 +138,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
 	}, Qt::QueuedConnection);
 
-    qmlRegisterType<VideosModel>(CINEMA_URI, 1, 0, "Videos");
-    qmlRegisterType<TagsModel>(CINEMA_URI, 1, 0, "Tags");
-    qmlRegisterSingletonInstance<Cinema>(CINEMA_URI, 1, 0, "Cinema", Cinema::instance ());
+	qmlRegisterType<VideosModel>(CINEMA_URI, 1, 0, "Videos");
+	qmlRegisterType<TagsModel>(CINEMA_URI, 1, 0, "Tags");
+	qmlRegisterSingletonInstance<Cinema>(CINEMA_URI, 1, 0, "Cinema", Cinema::instance ());
 
 	engine.load(url);
 

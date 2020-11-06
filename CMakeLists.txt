@@ -37,13 +37,10 @@ include(KDEInstallDirs)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
 
-#set(TS_FILES translations/cinema_en_001.ts)
-
 if(ANDROID)
     add_library(cinema SHARED
       src/main.cpp
       src/qml.qrc
-      ${TS_FILES}
     )
 else()
     add_executable(cinema
@@ -53,7 +50,6 @@ else()
       src/models/playlistmodel.cpp
       src/utils/cinema.cpp
       src/qml.qrc
-      ${TS_FILES}
     )
 
 ecm_setup_version(${CINEMA_VERSION}
@@ -68,5 +64,11 @@ target_compile_definitions(cinema
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(cinema
   PRIVATE MauiKit  Qt5::Sql Qt5::Core Qt5::Quick  Qt5::Qml Qt5::Svg KF5::ConfigCore KF5::Notifications KF5::KIOCore KF5::I18n KF5::Attica)
+
+install(FILES src/org.maui.cinema.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+
+#TODO: port to ecm_install_icons()
+install(FILES src/assets/cinema.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps)
+
 
 #qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
