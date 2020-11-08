@@ -20,7 +20,7 @@ Maui.AltBrowser
     holder.emojiSize: Maui.Style.iconSizes.huge
     holder.emoji: "qrc:/img/assets/tag.svg"
     holder.title: i18n("No Tags!")
-    holder.body: i18n("Add a new tag to start organizing you video collection.")
+    holder.body: i18n("Add a new tag to start organizing your video collection.")
 
     Binding on viewType
     {
