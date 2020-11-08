@@ -72,8 +72,8 @@ SplitView
             visible: player.stopped
             emojiSize: Maui.Style.iconSizes.huge
             emoji: "qrc:/img/assets/view-media-video.svg"
-            title: qsTr("No Videos!")
-            body: qsTr("Open a new video to start playing or add it to the playlist.")
+            title: i18n("No Videos!")
+            body: i18n("Open a new video to start playing or add it to the playlist.")
         }
     }
 

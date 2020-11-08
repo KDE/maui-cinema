@@ -19,8 +19,8 @@ Maui.AltBrowser
     holder.visible: _tagsList.count === 0
     holder.emojiSize: Maui.Style.iconSizes.huge
     holder.emoji: "qrc:/img/assets/tag.svg"
-    holder.title: qsTr("No Tags!")
-    holder.body: qsTr("Add a new tag to start organizing you video collection.")
+    holder.title: i18n("No Tags!")
+    holder.body: i18n("Add a new tag to start organizing you video collection.")
 
     Binding on viewType
     {

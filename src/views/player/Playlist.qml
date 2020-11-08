@@ -17,8 +17,8 @@ Maui.ListBrowser
 
     holder.visible: list.count === 0
     holder.emoji: "qrc:/img/assets/media-playlist-append.svg"
-    holder.title: qsTr("No Videos!")
-    holder.body: qsTr("Add videos to the playlist.")
+    holder.title: i18n("No Videos!")
+    holder.body: i18n("Add videos to the playlist.")
 
     currentIndex: currentVideoIndex
 

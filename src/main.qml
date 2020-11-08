@@ -44,7 +44,7 @@ Maui.ApplicationWindow
     mainMenu: [
         Action
         {
-            text: qsTr("Open")
+            text: i18n("Open")
             icon.name: "folder-open"
             onTriggered:
             {
@@ -149,22 +149,22 @@ Maui.ApplicationWindow
         PlayerView
         {
             id: _playerView
-            Maui.AppView.title: qsTr("Player")
-            Maui.AppView.iconName: qsTr("quickview")
+            Maui.AppView.title: i18n("Player")
+            Maui.AppView.iconName: "quickview"
         }
 
         CollectionView
         {
             id: _collectionView
-            Maui.AppView.title: qsTr("Collection")
-            Maui.AppView.iconName: qsTr("folder-videos")
+            Maui.AppView.title: i18n("Collection")
+            Maui.AppView.iconName: "folder-videos"
         }
 
         TagsView
         {
             id: _tagsView
-            Maui.AppView.title: qsTr("Tags")
-            Maui.AppView.iconName: qsTr("tag")
+            Maui.AppView.title: i18n("Tags")
+            Maui.AppView.iconName: "tag"
         }
     }
 
