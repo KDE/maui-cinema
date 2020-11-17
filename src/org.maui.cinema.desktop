@@ -2,6 +2,7 @@
 Name=Cinema
 Name[ast]=Cinema
 Name[ca]=Cinema
+Name[ca@valencia]=Cinema
 Name[es]=Cinema
 Name[hu]=Cinema
 Name[it]=Cinema
@@ -21,6 +22,7 @@ Categories=Qt;KDE;Multimedia;
 GenericName=Video Player
 GenericName[ast]=Reproductor de vídeos
 GenericName[ca]=Reproductor de vídeo
+GenericName[ca@valencia]=Reproductor de vídeo
 GenericName[es]=Reproductor de vídeo
 GenericName[hu]=Videolejátszó
 GenericName[it]=Lettore video
