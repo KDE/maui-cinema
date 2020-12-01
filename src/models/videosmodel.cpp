@@ -60,7 +60,7 @@ VideosModel::~VideosModel()
 	delete m_fileLoader;
 }
 
-FMH::MODEL_LIST VideosModel::items() const
+const FMH::MODEL_LIST &VideosModel::items() const
 {
 	return this->list;
 }

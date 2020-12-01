@@ -21,7 +21,7 @@ void TagsModel::componentComplete()
     this->setList();
 }
 
-FMH::MODEL_LIST TagsModel::items() const
+const FMH::MODEL_LIST &TagsModel::items() const
 {
     return this->list;
 }
