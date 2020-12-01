@@ -114,13 +114,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
 	const QStringList args = parser.positionalArguments();
 
-#ifdef STATIC_KIRIGAMI
-	KirigamiPlugin::getInstance().registerTypes();
-#endif
-
-#ifdef STATIC_MAUIKIT
-	MauiKit::getInstance().registerTypes();
-#endif
 	QList<QUrl> videos;
 	if(!args.isEmpty())
 		videos = openFiles(args);
@@ -137,6 +130,15 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 			Cinema::instance ()->openVideos(videos);
 
 	}, Qt::QueuedConnection);
+
+
+#ifdef STATIC_KIRIGAMI
+    KirigamiPlugin::getInstance().registerTypes();
+#endif
+
+#ifdef STATIC_MAUIKIT
+    MauiKit::getInstance().registerTypes(&engine);
+#endif
 
 	qmlRegisterType<VideosModel>(CINEMA_URI, 1, 0, "Videos");
 	qmlRegisterType<TagsModel>(CINEMA_URI, 1, 0, "Tags");
