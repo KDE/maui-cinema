@@ -50,7 +50,6 @@ SplitView
                 position: Qt.Horizontal
             }
         }
-
     }
 
     handle: orientation == Qt.Horizontal ? _verticalHandle : _horizontalHandle
