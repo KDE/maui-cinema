@@ -52,11 +52,11 @@ Maui.ApplicationWindow
                 dialog.mode = dialog.modes.OPEN
                 dialog.settings.filterType= Maui.FMList.VIDEO
                 dialog.settings.onlyDirs= false
-                dialog.show(function(paths)
+                dialog.callback = function(paths)
                 {
-                    console.log("OPEN THIS PATHS", paths)
                     Cinema.Cinema.openVideos(paths)
-                });
+                };
+                dialog.open()
             }
         }
     ]
