@@ -24,5 +24,5 @@ GenericName[sv]=Videospelare
 GenericName[uk]=Відеопрогравач
 GenericName[x-test]=xxVideo Playerxx
 StartupNotify=true
-Icon=maui-clip
+Icon=clip
 MimeType=video/dv;video/mpeg;video/x-mpeg;video/msvideo;video/quicktime;video/x-anim;video/x-avi;video/x-ms-asf;video/x-ms-wmv;video/x-msvideo;video/x-nsv;video/x-flc;video/x-fli;video/x-flv;video/vnd.rn-realvideo;video/mp4;video/mp4v-es;video/mp2t;application/ogg;application/x-ogg;video/x-ogm+ogg;application/x-matroska;video/x-matroska;video/webm;
