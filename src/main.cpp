@@ -11,16 +11,16 @@
 
 #include <MauiKit/mauiapp.h>
 
-#include "cinema_version.h"
+#include "clip_version.h"
 
 #include "src/models/videosmodel.h"
 #include "src/models/tagsmodel.h"
 
-#include "src/utils/cinema.h"
+#include "src/utils/clip.h"
 
 #include <KI18n/KLocalizedString>
 
-#define CINEMA_URI "org.maui.cinema"
+#define CLIP_URI "org.maui.clip"
 
 static const  QList<QUrl>  getFolderVideos(const QString &path)
 {
@@ -74,19 +74,19 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #endif
 
     app.setOrganizationName("Maui");
-    app.setWindowIcon(QIcon(":/img/assets/cinema.svg"));
+    app.setWindowIcon(QIcon(":/img/assets/clip.svg"));
 
-    MauiApp::instance()->setIconName("qrc:/img/assets/cinema.svg");
+    MauiApp::instance()->setIconName("qrc:/img/assets/clip.svg");
     MauiApp::instance()->setHandleAccounts(false);
 
-    KLocalizedString::setApplicationDomain("cinema");
-    KAboutData about(QStringLiteral("cinema"), i18n("Cinema"), CINEMA_VERSION_STRING, i18n("Video collection manager and player."),
+    KLocalizedString::setApplicationDomain("clip");
+    KAboutData about(QStringLiteral("clip"), i18n("Clip"), CLIP_VERSION_STRING, i18n("Video collection manager and player."),
                      KAboutLicense::LGPL_V3, i18n("© 2019-%1 Nitrux Development Team", QString::number(QDate::currentDate().year())));
     about.addAuthor(i18n("Camilo Higuita"), i18n("Developer"), QStringLiteral("milo.h@aol.com"));
     about.setHomepage("https://mauikit.org");
-    about.setProductName("maui/cinema");
+    about.setProductName("maui/clip");
     about.setBugAddress("https://invent.kde.org/maui/buho/-/issues");
-    about.setOrganizationDomain(CINEMA_URI);
+    about.setOrganizationDomain(CLIP_URI);
     about.setProgramLogo(app.windowIcon());
 
     KAboutData::setApplicationData(about);
@@ -112,13 +112,13 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
 
         if(!videos.isEmpty())
-            Cinema::instance ()->openVideos(videos);
+            Clip::instance ()->openVideos(videos);
 
     }, Qt::QueuedConnection);
 
-    qmlRegisterType<VideosModel>(CINEMA_URI, 1, 0, "Videos");
-    qmlRegisterType<TagsModel>(CINEMA_URI, 1, 0, "Tags");
-    qmlRegisterSingletonInstance<Cinema>(CINEMA_URI, 1, 0, "Cinema", Cinema::instance ());
+    qmlRegisterType<VideosModel>(CLIP_URI, 1, 0, "Videos");
+    qmlRegisterType<TagsModel>(CLIP_URI, 1, 0, "Tags");
+    qmlRegisterSingletonInstance<Clip>(CLIP_URI, 1, 0, "Clip", Clip::instance ());
 
     engine.load(url);
 

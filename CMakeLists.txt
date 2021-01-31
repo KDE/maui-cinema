@@ -5,8 +5,8 @@
 
 cmake_minimum_required(VERSION 3.14)
 
-set(CINEMA_VERSION 1.1.0)
-project(cinema VERSION ${CINEMA_VERSION})
+set(CLIP_VERSION 1.1.0)
+project(clip VERSION ${CLIP_VERSION})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
@@ -47,42 +47,42 @@ include(KDEClangFormat)
 include(ECMSetupVersion)
 include(FeatureSummary)
 
-set(cinemaSRCS
+set(clipSRCS
     src/main.cpp
     src/models/videosmodel.cpp
     src/models/tagsmodel.cpp
     src/models/playlistmodel.cpp
-    src/utils/cinema.cpp
+    src/utils/clip.cpp
     )
 
-set(cinemaHDRS
+set(clipHDRS
     src/models/videosmodel.h
     src/models/tagsmodel.h
     src/models/playlistmodel.h
-    src/utils/cinema.h
+    src/utils/clip.h
     )
 
-set(cinemaASSETS
+set(clipASSETS
     src/qml.qrc
     )
 
 if(ANDROID)
     add_library(${PROJECT_NAME} SHARED
-        ${cinemaSRCS}
-        ${cinemaHDRS}
-        ${cinemaASSETS}
+        ${clipSRCS}
+        ${clipHDRS}
+        ${clipASSETS}
         )
 else()
     add_executable(${PROJECT_NAME}
-        ${cinemaSRCS}
-        ${cinemaHDRS}
-        ${cinemaASSETS}
+        ${clipSRCS}
+        ${clipHDRS}
+        ${clipASSETS}
         )
 endif()
 
-ecm_setup_version(${CINEMA_VERSION}
-    VARIABLE_PREFIX CINEMA
-    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/cinema_version.h"
+ecm_setup_version(${CLIP_VERSION}
+    VARIABLE_PREFIX CLIP
+    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/clip_version.h"
     )
 
 if (ANDROID)
@@ -97,10 +97,10 @@ target_compile_definitions(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} MauiKit Qt5::Sql Qt5::Quick Qt5::Qml Qt5::Svg KF5::CoreAddons KF5::I18n)
 
 if(UNIX AND NOT APPLE AND NOT ANDROID)
-    install (TARGETS cinema ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-    install(FILES src/org.maui.cinema.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+    install (TARGETS ${PROJECT_NAME} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+    install(FILES src/org.maui.clip.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
     #TODO: port to ecm_install_icons()
-    install(FILES src/assets/cinema.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps)
+    install(FILES src/assets/clip.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps)
 endif()
 
 #qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})

@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import org.kde.mauikit 1.2 as Maui
 import org.kde.kirigami 2.8 as Kirigami
 
-import org.maui.cinema 1.0 as Cinema
+import org.maui.clip 1.0 as Clip
 
 import ".."
 
@@ -31,7 +31,7 @@ Maui.ListBrowser
         recursiveFilteringEnabled: true
         sortCaseSensitivity: Qt.CaseInsensitive
         filterCaseSensitivity: Qt.CaseInsensitive
-        list: Cinema.Videos
+        list: Clip.Videos
         {
             id: _collectionList
         }

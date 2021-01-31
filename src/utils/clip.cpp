@@ -1,11 +1,11 @@
-#include "cinema.h"
+#include "clip.h"
 #include <QDesktopServices>
 
-Cinema::Cinema(QObject *parent) : QObject(parent)
+Clip::Clip(QObject *parent) : QObject(parent)
 {
 }
 
-QVariantList Cinema::sourcesModel() const
+QVariantList Clip::sourcesModel() const
 {
 	QVariantList res;
 	const auto sources = getSourcePaths();
@@ -16,35 +16,35 @@ QVariantList Cinema::sourcesModel() const
 	});
 }
 
-QStringList Cinema::sources() const
+QStringList Clip::sources() const
 {
 	return getSourcePaths();
 }
 
-void Cinema::openVideos(const QList<QUrl> &urls)
+void Clip::openVideos(const QList<QUrl> &urls)
 {
 	emit this->openUrls(QUrl::toStringList(urls));
 }
 
-void Cinema::refreshCollection()
+void Clip::refreshCollection()
 {
 	const auto sources = getSourcePaths();
 	qDebug()<< "getting default sources to look up" << sources;
 }
 
-void Cinema::showInFolder(const QStringList &urls)
+void Clip::showInFolder(const QStringList &urls)
 {
 	for(const auto &url : urls)
 		QDesktopServices::openUrl(FMH::fileDir(url));
 }
 
-void Cinema::addSources(const QStringList &paths)
+void Clip::addSources(const QStringList &paths)
 {
 	saveSourcePath(paths);
 	emit sourcesChanged();
 }
 
-void Cinema::removeSources(const QString &path)
+void Clip::removeSources(const QString &path)
 {
 	removeSourcePath(path);
 	emit sourcesChanged();

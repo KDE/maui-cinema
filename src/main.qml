@@ -7,7 +7,7 @@ import QtMultimedia 5.8
 import org.kde.mauikit 1.2 as Maui
 import org.kde.kirigami 2.8 as Kirigami
 
-import org.maui.cinema 1.0 as Cinema
+import org.maui.clip 1.0 as Clip
 
 import TagsList 1.0
 
@@ -54,7 +54,7 @@ Maui.ApplicationWindow
                 dialog.settings.onlyDirs= false
                 dialog.callback = function(paths)
                 {
-                    Cinema.Cinema.openVideos(paths)
+                    Clip.Clip.openVideos(paths)
                 };
                 dialog.open()
             }
@@ -231,7 +231,7 @@ Maui.ApplicationWindow
 
     Connections
     {
-        target: Cinema.Cinema
+        target: Clip.Clip
         function onOpenUrls(urls)
         {
             for(var url of urls)

@@ -1,31 +1,26 @@
-#ifndef CINEMA_H
-#define CINEMA_H
+#ifndef CLIP_H
+#define CLIP_H
 
-#if (defined (Q_OS_LINUX) && !defined (Q_OS_ANDROID))
 #include <MauiKit/utils.h>
 #include <MauiKit/fmh.h>
-#else
-#include "utils.h"
-#include "fmh.h"
-#endif
 
-class Cinema : public QObject
+class Clip : public QObject
 {
 		Q_OBJECT
 		Q_PROPERTY(QVariantList sourcesModel READ sourcesModel NOTIFY sourcesChanged FINAL)
 		Q_PROPERTY(QStringList sources READ sources NOTIFY sourcesChanged FINAL)
 
 	public:
-		static Cinema * instance()
+        static Clip * instance()
 		{
-			static Cinema cinema;
-			return &cinema;
+            static Clip clip;
+            return &clip;
 		}
 
-		Cinema(const Cinema &) = delete;
-		Cinema &operator=(const Cinema &) = delete;
-		Cinema(Cinema &&) = delete;
-		Cinema &operator=(Cinema &&) = delete;
+        Clip(const Clip &) = delete;
+        Clip &operator=(const Clip &) = delete;
+        Clip(Clip &&) = delete;
+        Clip &operator=(Clip &&) = delete;
 
 	public slots:
 		QVariantList sourcesModel() const;
@@ -40,7 +35,7 @@ class Cinema : public QObject
 		static void showInFolder(const QStringList &urls);
 
 	private:
-		explicit Cinema(QObject* parent = nullptr);
+        explicit Clip(QObject* parent = nullptr);
 
 		inline static const QStringList getSourcePaths()
 		{
@@ -75,4 +70,4 @@ class Cinema : public QObject
 		void sourcesChanged();
 };
 
-#endif // CINEMA_H
+#endif // CLIP_H

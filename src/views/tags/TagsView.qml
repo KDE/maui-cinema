@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
 import org.kde.kirigami 2.2 as Kirigami
 import org.kde.mauikit 1.2 as Maui
-import org.maui.cinema 1.0 as Cinema
+import org.maui.clip 1.0 as Clip
 
 import ".."
 

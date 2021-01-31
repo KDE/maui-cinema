@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 import org.kde.kirigami 2.9 as Kirigami
 import org.kde.mauikit 1.2 as Maui
 
-import org.maui.cinema 1.0 as Cinema
+import org.maui.clip 1.0 as Clip
 
 Maui.ItemDelegate
 {
@@ -63,7 +63,7 @@ Maui.ItemDelegate
                         id: _repeater
                         model: Maui.BaseModel
                         {
-                            list: Cinema.Videos
+                            list: Clip.Videos
                             {
                                 id: _videoList
                                 autoReload: false

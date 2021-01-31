@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.3
 import org.kde.mauikit 1.2 as Maui
 import org.kde.kirigami 2.8 as Kirigami
 
-import org.maui.cinema 1.0 as Cinema
+import org.maui.clip 1.0 as Clip
 
 import ".."
 
@@ -49,7 +49,7 @@ Maui.AltBrowser
         recursiveFilteringEnabled: true
         sortCaseSensitivity: Qt.CaseInsensitive
         filterCaseSensitivity: Qt.CaseInsensitive
-        list: Cinema.Tags
+        list: Clip.Tags
         {
             id: _tagsList
         }
