@@ -1,4 +1,6 @@
 import QtQuick 2.14
+import QtQml 2.14
+import QtQuick.Window 2.13
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
 import org.kde.mauikit 1.2 as Maui
@@ -79,7 +81,13 @@ SplitView
     Playlist
     {
         id: _playlist
-        visible: list.count > 0
+
+        Binding on visible
+        {
+            restoreMode: Binding.RestoreValue
+            value: list.count > 0 && root.visibility !== Window.FullScreen
+        }
+
         SplitView.fillWidth: true
 
         SplitView.minimumHeight: control.orientation === Qt.Vertical ? 100 : 0

@@ -1,9 +1,11 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.13
+
 import QtMultimedia 5.8
-import org.kde.mauikit 1.2 as Maui
-import org.kde.kirigami 2.7 as Kirigami
+import org.kde.mauikit 1.3 as Maui
+import org.kde.kirigami 2.14 as Kirigami
 
 Maui.Page
 {
@@ -84,6 +86,7 @@ Maui.Page
         Maui.TagsBar
         {
             id: tagBar
+            visible: root.visibility !== Window.FullScreen
             position: ToolBar.Footer
             width: parent.width
             allowEditMode: true
@@ -111,7 +114,7 @@ Maui.Page
                 text: Maui.FM.formatTime(player.duration/1000)
             }
 
-            middleContent:Slider
+            middleContent: Slider
             {
                 id: _slider
                 enabled: control.playing || control.paused
@@ -126,6 +129,7 @@ Maui.Page
             }
         }
     ]
+
     footBar.leftContent: ToolButton
     {
         visible: !Kirigami.Settings.isMobile
