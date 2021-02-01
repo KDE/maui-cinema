@@ -31,6 +31,13 @@ Maui.ApplicationWindow
     floatingFooter: true
     flickable: _appViews.currentItem ? _appViews.currentItem.flickable || null : null
 
+    onIsPortraitChanged:
+    {
+        if(!isPortrait && _playerView.player.playing)
+           toogleFullscreen()
+
+    }
+
     /***MODELS****/
     Maui.BaseModel
     {

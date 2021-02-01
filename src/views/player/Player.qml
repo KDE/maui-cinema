@@ -10,6 +10,7 @@ Maui.Page
     id: control
     property alias video : player
     property alias url : player.source
+
     readonly property bool playing : player.playbackState === MediaPlayer.PlayingState
     readonly property bool paused : player.playbackState === MediaPlayer.PausedState
     readonly property bool stopped : player.playbackState === MediaPlayer.StoppedState
