@@ -35,9 +35,14 @@ Maui.ApplicationWindow
 
     onIsPortraitChanged:
     {
-        if(!isPortrait)
-           toogleFullscreen()
-
+        if(!isPortrait)           
+        {
+            root.showFullScreen()
+        }
+        else
+        {
+            root.showNormal()
+        }
     }
 
     /***MODELS****/
