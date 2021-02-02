@@ -1,5 +1,13 @@
 [Desktop Entry]
 Name=Clip
+Name[ca]=Clip
+Name[ca@valencia]=Clip
+Name[es]=Clip
+Name[nl]=Clip
+Name[pt]='Clip'
+Name[sv]=Klipp
+Name[uk]=Кліп
+Name[x-test]=xxClipxx
 TryExec=clip
 Exec=clip %U
 Terminal=false
