@@ -85,7 +85,7 @@ SplitView
         Binding on visible
         {
             restoreMode: Binding.RestoreValue
-            value: list.count > 0 && root.visibility !== Window.FullScreen
+            value: _playlist.list.count > 0 && root.visibility !== Window.FullScreen
         }
 
         SplitView.fillWidth: true

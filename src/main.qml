@@ -31,9 +31,11 @@ Maui.ApplicationWindow
     floatingFooter: true
     flickable: _appViews.currentItem ? _appViews.currentItem.flickable || null : null
 
+    headBar.visible: root.visibility !== Window.FullScreen
+
     onIsPortraitChanged:
     {
-        if(!isPortrait && _playerView.player.playing)
+        if(!isPortrait)
            toogleFullscreen()
 
     }
